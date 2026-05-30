@@ -1,4 +1,5 @@
 pub mod rma;
+pub mod rsi;
 // pub mod avg;
 // pub mod diff;
 // pub mod ema;
@@ -10,7 +11,6 @@ pub mod rma;
 // pub mod pivot;
 // pub mod profit_factor;
 // pub mod mult;
-// pub mod rsi;
 // pub mod plus;
 // pub mod div;
 // pub mod time;

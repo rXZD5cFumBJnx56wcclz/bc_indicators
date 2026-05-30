@@ -1,8 +1,11 @@
 use crate::indicators::ready_imports::*;
 
+// для этого индикатора требудется запас данных больше в 10 раз, чем его окна
+// иначе значение будет не корректным
 pub struct RMA {
-    window: usize,
+    pub window: usize,
     mult_window_accuracy: usize,
+    add_window_accuracy: usize,
 }
 
 impl Indicator for RMA {
@@ -12,12 +15,13 @@ impl Indicator for RMA {
     fn get_mult_window_accuracy(&self) -> usize {
         self.mult_window_accuracy
     }
+    fn get_add_window_accuracy(&self) -> usize {
+        self.add_window_accuracy
+    }
     fn ind(&self, math_operations: &[f64]) -> f64 {
         math_operations[2] * math_operations[0] + (1.0- math_operations[2]) * math_operations[1]
     }
     fn bf(&self, in_: &[Vec<f64>],) -> std::cell::RefCell<Vec<FxHashMap<&'static str, f64>>> {
-        // для этого индикатора требудется запас данных больше в 10 раз, чем его окна
-        // иначе значение будет не корректным
         let mut res = 0.0;
         let len = in_.len();
         let window_t = self.window as f64;
@@ -50,10 +54,11 @@ impl Indicator for RMA {
         &self,
         in_: &[f64],
         bf: &RefCell<Vec<FxHashMap<&'static str, f64>>>,
+        index_: usize,
     ) -> f64
     {
         let res = self.ind(
-            &[in_[0], bf.borrow()[0]["res"], bf.borrow()[0]["alpha"]],
+            &[in_[0], bf.borrow()[index_]["res"], bf.borrow()[index_]["alpha"]],
         );
         bf.borrow_mut()[0].insert("res", res);
         res
@@ -63,8 +68,11 @@ impl Indicator for RMA {
 impl RMA {
     pub fn new(
         window: usize, 
-        mult_window_accuracy: usize,
     ) -> Self {
-        Self { window, mult_window_accuracy }
+        Self { 
+            window, 
+            mult_window_accuracy: 10,
+            add_window_accuracy: 0,
+        }
     }
 }

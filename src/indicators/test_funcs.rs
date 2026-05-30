@@ -1,0 +1,57 @@
+use bc_utils_lg::statics::prices::OPEN;
+
+use crate::indicators::ready_imports::Indicator;
+
+
+pub fn test_bf_res_1<T, X>(settings_indicator: T, eq: X)
+where 
+    T: Indicator,
+    X: PartialEq<f64>,
+    X: std::fmt::Debug,
+    f64: PartialEq<X>,
+{
+    let bf = settings_indicator.bf(
+        OPEN
+            .into_iter()
+            .take(OPEN.len() - 1)
+            .map(|v| vec![v])
+            .collect::<Vec<Vec<f64>>>()
+            .as_slice()
+    );
+    assert_eq!(
+        settings_indicator.ind_with_bf(&[2.2547], &bf, 0),
+        eq,
+    );
+}
+
+pub fn test_f_res_1<T, X>(settings_indicator: T, eq: X)
+where 
+    T: Indicator,
+    X: PartialEq<f64>,
+    X: std::fmt::Debug,
+    f64: PartialEq<X>,
+{
+    assert_eq!(
+        settings_indicator.ind_f(OPEN.into_iter().map(|v| vec![v]).collect::<Vec<Vec<f64>>>().as_slice()),
+        eq,
+    );
+}
+
+pub fn test_coll_res_1<T, X>(
+    settings_indicator: T, 
+    eq: X, 
+    len_elements: usize,
+)
+where 
+    T: Indicator,
+    X: PartialEq<f64>,
+    X: std::fmt::Debug,
+    f64: PartialEq<X>,
+{
+    assert_eq!(
+        dbg!(settings_indicator.ind_coll::<Vec<_>>(
+            OPEN[OPEN.len() - len_elements..].into_iter().map(|v| vec![*v]).collect::<Vec<Vec<f64>>>().as_slice()
+        ))[len_elements - 1],
+        eq,
+    );
+}
