@@ -1,2 +1,1 @@
-pub mod ind;
-pub mod gw;
+pub mod indicators;

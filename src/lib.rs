@@ -1,7 +1,1 @@
-#![warn(clippy::all, clippy::pedantic)]
-
-pub mod bf;
-pub mod ind;
-pub mod map;
-pub mod gw;
-pub mod other;
+pub mod indicators;
