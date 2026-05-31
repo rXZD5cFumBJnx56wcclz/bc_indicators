@@ -2,7 +2,8 @@ use std::cell::RefCell;
 
 use rustc_hash::FxHashMap;
 
-pub trait Indicator {
+pub trait Indicator
+{
     fn get_window(&self) -> usize;
     fn get_mult_window_accuracy(&self) -> usize;
     fn get_add_window_accuracy(&self) -> usize;
@@ -23,7 +24,7 @@ pub trait Indicator {
         self.ind_with_bf(&in_[in_.len() - 1], &bf, 0)
     }
     fn ind_coll<C>(&self, in_: &[Vec<f64>],) -> C
-    where
+    where 
         C: FromIterator<f64>,
     {
         let bf = self.bf(

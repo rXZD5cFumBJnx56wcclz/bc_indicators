@@ -7,7 +7,26 @@ pub struct RSI {
     add_window_accuracy: usize,
 }
 
-impl Indicator for RSI {
+impl RSI {
+    pub fn new(
+        window: usize, 
+    ) -> Self {
+        Self {
+            window,
+            mult_window_accuracy: 10,
+            add_window_accuracy: 1,
+        }
+    }
+}
+
+impl Default for RSI {
+    fn default() -> Self {
+        RSI::new(14)
+    }
+}
+
+impl Indicator for RSI 
+{
     fn get_window(&self) -> usize {
         self.window
     }
@@ -78,17 +97,5 @@ impl Indicator for RSI {
             RMA::ind_with_bf(&settings_rma, &[u], bf, index_),
             RMA::ind_with_bf(&settings_rma, &[d], bf, index_ + 1),
         ])
-    }
-}
-
-impl RSI {
-    pub fn new(
-        window: usize, 
-    ) -> Self {
-        Self {
-            window,
-            mult_window_accuracy: 10,
-            add_window_accuracy: 1,
-        }
     }
 }

@@ -8,7 +8,26 @@ pub struct RMA {
     add_window_accuracy: usize,
 }
 
-impl Indicator for RMA {
+impl RMA {
+    pub fn new(
+        window: usize, 
+    ) -> Self {
+        Self { 
+            window, 
+            mult_window_accuracy: 10,
+            add_window_accuracy: 0,
+        }
+    }
+}
+
+impl Default for RMA {
+    fn default() -> Self {
+        RMA::new(14)
+    }
+}
+
+impl Indicator for RMA 
+{
     fn get_window(&self) -> usize {
         self.window
     }
@@ -62,17 +81,5 @@ impl Indicator for RMA {
         );
         bf.borrow_mut()[0].insert("res", res);
         res
-    }
-}
-
-impl RMA {
-    pub fn new(
-        window: usize, 
-    ) -> Self {
-        Self { 
-            window, 
-            mult_window_accuracy: 10,
-            add_window_accuracy: 0,
-        }
     }
 }
