@@ -4,8 +4,8 @@ use crate::indicators::rma::RMA;
 
 pub struct RSI {
     pub window: usize,
-    mult_window_accuracy: usize,
-    add_window_accuracy: usize,
+    pub mult_window_accuracy: usize,
+    pub add_window_accuracy: usize,
 }
 
 impl RSI {

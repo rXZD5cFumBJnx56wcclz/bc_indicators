@@ -4,8 +4,8 @@ use crate::indicators::ready_imports::*;
 // иначе значение будет не корректным
 pub struct RMA {
     pub window: usize,
-    mult_window_accuracy: usize,
-    add_window_accuracy: usize,
+    pub mult_window_accuracy: usize,
+    pub add_window_accuracy: usize,
 }
 
 impl RMA {
