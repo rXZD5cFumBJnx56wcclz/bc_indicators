@@ -23,6 +23,9 @@ pub trait Indicator
         ],);
         self.ind_with_bf(&in_[in_.len() - 1], &bf, 0)
     }
+}
+
+pub trait IndicatorExt: Indicator {
     fn ind_coll<C>(&self, in_: &[Vec<f64>],) -> C
     where 
         C: FromIterator<f64>,

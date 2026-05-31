@@ -1,3 +1,4 @@
+use crate::indicators::indicator_traits::IndicatorExt;
 use crate::indicators::ready_imports::*;
 use crate::indicators::rma::RMA;
 
@@ -99,3 +100,5 @@ impl Indicator for RSI
         ])
     }
 }
+
+impl IndicatorExt for RSI {}

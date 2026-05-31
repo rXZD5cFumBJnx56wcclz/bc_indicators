@@ -1,11 +1,12 @@
 use bc_utils_lg::statics::prices::OPEN;
 
-use crate::indicators::ready_imports::Indicator;
+use crate::indicators::ready_imports::*;
 
 
 pub fn test_bf_res_1<T, X>(settings_indicator: T, eq: X)
 where 
     T: Indicator,
+    T: IndicatorExt,
     X: PartialEq<f64>,
     X: std::fmt::Debug,
     f64: PartialEq<X>,
@@ -27,6 +28,7 @@ where
 pub fn test_f_res_1<T, X>(settings_indicator: T, eq: X)
 where 
     T: Indicator,
+    T: IndicatorExt,
     X: PartialEq<f64>,
     X: std::fmt::Debug,
     f64: PartialEq<X>,
@@ -44,6 +46,7 @@ pub fn test_coll_res_1<T, X>(
 )
 where 
     T: Indicator,
+    T: IndicatorExt,
     X: PartialEq<f64>,
     X: std::fmt::Debug,
     f64: PartialEq<X>,

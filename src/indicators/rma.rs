@@ -83,3 +83,5 @@ impl Indicator for RMA
         res
     }
 }
+
+impl IndicatorExt for RMA {}
