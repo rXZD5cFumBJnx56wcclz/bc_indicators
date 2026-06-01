@@ -2,6 +2,7 @@ use crate::indicators::indicator_traits::IndicatorExt;
 use crate::indicators::ready_imports::*;
 use crate::indicators::rma::RMA;
 
+#[derive(Debug, PartialEq, PartialOrd, Eq)]
 pub struct RSI {
     pub window: usize,
     pub mult_window_accuracy: usize,
@@ -9,22 +10,20 @@ pub struct RSI {
 }
 
 impl RSI {
-    pub fn new(
-        window: usize, 
-    ) -> Self {
+    pub fn new(window: usize) -> Self {
         Self {
             window,
             mult_window_accuracy: 10,
             add_window_accuracy: 1,
         }
     }
-    pub fn set_window(&mut self, window: usize){
+    pub fn set_window(&mut self, window: usize) {
         self.window = window;
     }
-    pub fn set_mult_window_accuracy(&mut self, mult_window_accuracy: usize){
+    pub fn set_mult_window_accuracy(&mut self, mult_window_accuracy: usize) {
         self.mult_window_accuracy = mult_window_accuracy;
     }
-    pub fn set_add_window_accuracy(&mut self, add_window_accuracy: usize){
+    pub fn set_add_window_accuracy(&mut self, add_window_accuracy: usize) {
         self.add_window_accuracy = add_window_accuracy;
     }
 }
@@ -35,8 +34,7 @@ impl Default for RSI {
     }
 }
 
-impl Indicator for RSI 
-{
+impl Indicator for RSI {
     fn get_window(&self) -> usize {
         self.window
     }
@@ -46,13 +44,10 @@ impl Indicator for RSI
     fn get_add_window_accuracy(&self) -> usize {
         self.add_window_accuracy
     }
-    fn ind(&self, math_operations: &[f64],) -> f64 {
+    fn ind(&self, math_operations: &[f64]) -> f64 {
         (100.0 - (100.0 / (1.0 + math_operations[0] / math_operations[1]))) / 100.0
     }
-    fn bf(
-        &self,
-        in_: &[Vec<f64>],
-    ) -> RefCell<Vec<FxHashMap<&'static str, f64>>> {
+    fn bf(&self, in_: &[Vec<f64>]) -> RefCell<Vec<FxHashMap<&'static str, f64>>> {
         let mut u = Vec::new();
         let mut d = Vec::new();
         let mut src_l = f64::NAN;
@@ -73,22 +68,22 @@ impl Indicator for RSI
             d.push((-change).max(0.0));
             src_l = el;
         }
-        let settings_rma = RMA::new(self.window,);
+        let settings_rma = RMA::new(self.window);
         RefCell::new(vec![
             RMA::bf(
-                &settings_rma, 
-                &u
-                    .into_iter()
-                    .map(|v| vec![v])
-                    .collect::<Vec<Vec<f64>>>()
-            ).take().pop().expect("there is no data inside the RMA buffer"),
+                &settings_rma,
+                &u.into_iter().map(|v| vec![v]).collect::<Vec<Vec<f64>>>(),
+            )
+            .take()
+            .pop()
+            .expect("there is no data inside the RMA buffer"),
             RMA::bf(
-                &settings_rma, 
-                &d
-                    .into_iter()
-                    .map(|v| vec![v])
-                    .collect::<Vec<Vec<f64>>>()
-            ).take().pop().expect("there is no data inside the RMA buffer"),
+                &settings_rma,
+                &d.into_iter().map(|v| vec![v]).collect::<Vec<Vec<f64>>>(),
+            )
+            .take()
+            .pop()
+            .expect("there is no data inside the RMA buffer"),
             FxHashMap::from_iter([("src_l", src_l)]),
         ])
     }
@@ -97,9 +92,8 @@ impl Indicator for RSI
         in_: &[f64],
         bf: &RefCell<Vec<FxHashMap<&'static str, f64>>>,
         index_: usize,
-    ) -> f64
-    {
-        let settings_rma = RMA::new(self.window,);
+    ) -> f64 {
+        let settings_rma = RMA::new(self.window);
         let change = in_[0] - bf.borrow()[2]["src_l"];
         let u = 0.0f64.max(change);
         let d = 0.0f64.max(-change);
