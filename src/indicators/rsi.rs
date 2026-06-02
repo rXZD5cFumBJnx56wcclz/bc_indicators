@@ -97,6 +97,7 @@ impl Indicator for RSI {
         let change = in_[0] - bf.borrow()[2]["src_l"];
         let u = 0.0f64.max(change);
         let d = 0.0f64.max(-change);
+        bf.borrow_mut()[2].insert("src_l", in_[0]);
         self.ind(&[
             RMA::ind_with_bf(&settings_rma, &[u], bf, index_),
             RMA::ind_with_bf(&settings_rma, &[d], bf, index_ + 1),

@@ -23,7 +23,7 @@ where
             {
                 f64::NAN
             } else {
-                indicator.ind_with_bf(v.1, &bf.clone(), 0)
+                indicator.ind_with_bf(v.1, &bf, 0)
             }
         })
         .collect()

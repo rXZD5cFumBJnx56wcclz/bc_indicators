@@ -80,7 +80,7 @@ impl Indicator for RMA {
             bf.borrow()[index_]["res"],
             bf.borrow()[index_]["alpha"],
         ]);
-        bf.borrow_mut()[0].insert("res", res);
+        bf.borrow_mut()[index_].insert("res", res);
         res
     }
 }

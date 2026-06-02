@@ -32,9 +32,17 @@ checksum = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
 name = "bc_indicators"
 version = "0.1.0"
 dependencies = [
+ "bc_utils",
  "bc_utils_lg",
  "criterion",
  "rustc-hash",
+]
+
+[[package]]
+name = "bc_utils"
+version = "0.1.21"
+dependencies = [
+ "num-traits",
 ]
 
 [[package]]

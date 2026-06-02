@@ -1,5 +1,6 @@
 pub mod rma;
 pub mod rsi;
+pub mod test_funcs;
 // pub mod avg;
 // pub mod diff;
 // pub mod ema;
