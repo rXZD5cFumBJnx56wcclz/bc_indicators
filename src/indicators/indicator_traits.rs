@@ -34,11 +34,11 @@ pub trait Indicator: Any {
     fn get_mult_window_accuracy(&self) -> usize;
     fn get_add_window_accuracy(&self) -> usize;
     fn ind(&self, math_operations: &[f64]) -> f64;
-    fn bf(&self, in_: &[Vec<f64>]) -> RefCell<Vec<FxHashMap<&'static str, f64>>>;
+    fn bf(&self, in_: &[Vec<f64>]) -> RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>;
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        bf: &RefCell<Vec<FxHashMap<&'static str, f64>>>,
+        bf: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
         index_: usize,
     ) -> f64;
     fn ind_f(&self, in_: &[Vec<f64>]) -> f64 {

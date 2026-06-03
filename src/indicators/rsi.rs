@@ -47,7 +47,7 @@ impl Indicator for RSI {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         (100.0 - (100.0 / (1.0 + math_operations[0] / math_operations[1]))) / 100.0
     }
-    fn bf(&self, in_: &[Vec<f64>]) -> RefCell<Vec<FxHashMap<&'static str, f64>>> {
+    fn bf(&self, in_: &[Vec<f64>]) -> RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>> {
         let mut u = Vec::new();
         let mut d = Vec::new();
         let mut src_l = f64::NAN;
@@ -84,20 +84,20 @@ impl Indicator for RSI {
             .take()
             .pop()
             .expect("there is no data inside the RMA buffer"),
-            FxHashMap::from_iter([("src_l", src_l)]),
+            FxHashMap::from_iter([("src_l", vec![src_l])]),
         ])
     }
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        bf: &RefCell<Vec<FxHashMap<&'static str, f64>>>,
+        bf: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
         index_: usize,
     ) -> f64 {
         let settings_rma = RMA::new(self.window);
-        let change = in_[0] - bf.borrow()[2]["src_l"];
+        let change = in_[0] - bf.borrow()[2]["src_l"][0];
         let u = 0.0f64.max(change);
         let d = 0.0f64.max(-change);
-        bf.borrow_mut()[2].insert("src_l", in_[0]);
+        bf.borrow_mut()[2].insert("src_l", in_.to_vec());
         self.ind(&[
             RMA::ind_with_bf(&settings_rma, &[u], bf, index_),
             RMA::ind_with_bf(&settings_rma, &[d], bf, index_ + 1),

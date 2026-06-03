@@ -1,4 +1,18 @@
+pub mod avg;
+pub mod diff;
+pub mod div;
+pub mod ema;
 pub mod indicator_traits;
+pub mod minus;
+pub mod mult;
+pub mod osc_mult;
+pub mod percent;
+pub mod plus;
+pub mod profit_factor;
 pub mod ready_imports;
+pub mod rem;
 pub mod rma;
 pub mod rsi;
+pub mod sma;
+pub mod trend_ma;
+// pub mod mm_scaler;

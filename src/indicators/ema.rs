@@ -1,15 +1,13 @@
 use crate::indicators::ready_imports::*;
 
-// для этого индикатора требудется запас данных больше в 10 раз, чем его окна
-// иначе значение будет не корректным
 #[derive(Debug, PartialEq, PartialOrd, Eq)]
-pub struct RMA {
+pub struct EMA {
     pub window: usize,
     pub mult_window_accuracy: usize,
     pub add_window_accuracy: usize,
 }
 
-impl RMA {
+impl EMA {
     pub fn new(window: usize) -> Self {
         Self {
             window,
@@ -28,13 +26,13 @@ impl RMA {
     }
 }
 
-impl Default for RMA {
+impl Default for EMA {
     fn default() -> Self {
-        RMA::new(14)
+        EMA::new(14)
     }
 }
 
-impl Indicator for RMA {
+impl Indicator for EMA {
     fn get_window(&self) -> usize {
         self.window
     }
@@ -45,13 +43,13 @@ impl Indicator for RMA {
         self.add_window_accuracy
     }
     fn ind(&self, math_operations: &[f64]) -> f64 {
-        math_operations[2] * math_operations[0] + (1.0 - math_operations[2]) * math_operations[1]
+        math_operations[0] * math_operations[2] + math_operations[1] * (1.0 - math_operations[2])
     }
     fn bf(&self, in_: &[Vec<f64>]) -> std::cell::RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>> {
         let mut res = 0.0;
         let len = in_.len();
         let window_t = self.window as f64;
-        let alpha = 1.0 / window_t;
+        let alpha = 2.0 / (window_t + 1.0);
 
         for (i, el) in in_[len - self.window * self.mult_window_accuracy..]
             .iter()
@@ -88,4 +86,4 @@ impl Indicator for RMA {
     }
 }
 
-impl IndicatorExt for RMA {}
+impl IndicatorExt for EMA {}
