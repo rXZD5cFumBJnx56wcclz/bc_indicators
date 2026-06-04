@@ -1,6 +1,7 @@
 #![allow(non_camel_case_types)]
-use crate::indicators::ready_imports::*;
+use bc_utils::other::roll_slice1;
 
+use crate::indicators::ready_imports::*;
 
 #[derive(Debug, PartialEq, PartialOrd, Eq)]
 pub struct MM_SCALLER {
@@ -10,9 +11,9 @@ pub struct MM_SCALLER {
 }
 
 impl MM_SCALLER {
-    pub fn new() -> Self {
+    pub fn new(window: usize) -> Self {
         Self {
-            window: 0,
+            window: window,
             mult_window_accuracy: 1,
             add_window_accuracy: 0,
         }
@@ -21,7 +22,7 @@ impl MM_SCALLER {
 
 impl Default for MM_SCALLER {
     fn default() -> Self {
-        MM_SCALLER::new()
+        MM_SCALLER::new(100)
     }
 }
 
@@ -36,32 +37,46 @@ impl Indicator for MM_SCALLER {
         self.add_window_accuracy
     }
     fn ind(&self, math_operations: &[f64]) -> f64 {
-        math_operations.into_iter().sum::<f64>() / math_operations.len() as f64
+        (math_operations[0] - math_operations[1]) / (math_operations[2] - math_operations[1])
     }
-    fn bf(&self, _: &[Vec<f64>]) -> std::cell::RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>> {
-        Default::default()
+    fn bf(&self, in_: &[Vec<f64>]) -> std::cell::RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>> {
+        RefCell::new(vec![FxHashMap::from_iter([(
+            "src_l_vec",
+            in_[in_.len() - self.window..]
+                .iter()
+                .map(|v| v[0])
+                .collect(),
+        )])])
     }
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        _: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
-        _: usize,
+        bf: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
+        index_: usize,
     ) -> f64 {
-        self.ind(in_)
-    }
-    fn ind_f(&self, in_: &[Vec<f64>]) -> f64 {
-        self.ind(in_.last().expect("no elements in slice"))
-    }
-    fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
-        in_.iter().map(|x| self.ind(x)).collect()
+        roll_slice1(
+            bf.borrow_mut()
+                .get_mut(index_)
+                .unwrap()
+                .get_mut("src_l_vec")
+                .unwrap(),
+            &-1,
+        );
+        bf.borrow_mut()
+            .get_mut(index_)
+            .unwrap()
+            .get_mut("src_l_vec")
+            .unwrap()[self.window - 1] = in_[0];
+        let min_ = *bf.borrow()[index_]["src_l_vec"]
+            .iter()
+            .min_by(|a, b| a.partial_cmp(b).unwrap())
+            .unwrap();
+        let max_ = *bf.borrow()[index_]["src_l_vec"]
+            .iter()
+            .max_by(|a, b| a.partial_cmp(b).unwrap())
+            .unwrap();
+        self.ind(&vec![in_[in_.len() - 1], min_, max_])
     }
 }
 
-impl IndicatorExt for MM_SCALLER {
-    fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
-    where
-        C: FromIterator<f64>,
-    {
-        in_.iter().map(|x| self.ind(x)).collect()
-    }
-}
+impl IndicatorExt for MM_SCALLER {}

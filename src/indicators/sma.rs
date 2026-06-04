@@ -62,7 +62,6 @@ impl Indicator for SMA {
         bf: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
         index_: usize,
     ) -> f64 {
-        dbg!(bf, bf.borrow()[0]["src_l_vec"].len());
         roll_slice1(
             bf.borrow_mut()
                 .get_mut(index_)
@@ -76,7 +75,6 @@ impl Indicator for SMA {
             .unwrap()
             .get_mut("src_l_vec")
             .unwrap()[self.window - 1] = in_[0];
-        dbg!(bf, bf.borrow()[0]["src_l_vec"].len());
         avg(&bf.borrow()[index_]["src_l_vec"][..])
     }
 }
