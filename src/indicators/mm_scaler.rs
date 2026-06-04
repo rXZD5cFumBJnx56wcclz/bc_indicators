@@ -4,13 +4,13 @@ use bc_utils::other::roll_slice1;
 use crate::indicators::ready_imports::*;
 
 #[derive(Debug, PartialEq, PartialOrd, Eq)]
-pub struct MM_SCALLER {
+pub struct MM_SCALER {
     pub window: usize,
     pub mult_window_accuracy: usize,
     pub add_window_accuracy: usize,
 }
 
-impl MM_SCALLER {
+impl MM_SCALER {
     pub fn new(window: usize) -> Self {
         Self {
             window: window,
@@ -20,13 +20,13 @@ impl MM_SCALLER {
     }
 }
 
-impl Default for MM_SCALLER {
+impl Default for MM_SCALER {
     fn default() -> Self {
-        MM_SCALLER::new(100)
+        MM_SCALER::new(100)
     }
 }
 
-impl Indicator for MM_SCALLER {
+impl Indicator for MM_SCALER {
     fn get_window(&self) -> usize {
         self.window
     }
@@ -79,4 +79,4 @@ impl Indicator for MM_SCALLER {
     }
 }
 
-impl IndicatorExt for MM_SCALLER {}
+impl IndicatorExt for MM_SCALER {}

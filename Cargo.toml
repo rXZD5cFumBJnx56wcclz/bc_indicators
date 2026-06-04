@@ -11,3 +11,81 @@ bc_utils = {path = "../bc_utils"}
 
 [dev-dependencies]
 criterion = {version = "0.3.5", features = ["html_reports"]}
+
+[[bench]]
+name = "rma"
+harness = false
+path = "benches/rma.rs"
+
+[[bench]]
+name = "avg"
+harness = false
+path = "benches/avg.rs"
+
+
+ [[bench]]
+name = "div"
+harness = false
+path = "benches/div.rs"
+
+ [[bench]]
+name = "ema"
+harness = false
+path = "benches/ema.rs"
+
+ [[bench]]
+name = "minus"
+harness = false
+path = "benches/minus.rs"
+
+ [[bench]]
+name = "mm_scaler"
+harness = false
+path = "benches/mm_scaler.rs"
+
+ [[bench]]
+name = "mult"
+harness = false
+path = "benches/mult.rs"
+
+ [[bench]]
+name = "osc_mult"
+harness = false
+path = "benches/osc_mult.rs"
+
+ [[bench]]
+name = "percent"
+harness = false
+path = "benches/percent.rs"
+
+ [[bench]]
+name = "plus"
+harness = false
+path = "benches/plus.rs"
+
+ [[bench]]
+name = "profit_factor"
+harness = false
+path = "benches/profit_factor.rs"
+
+ [[bench]]
+name = "rem"
+harness = false
+path = "benches/rem.rs"
+
+
+ [[bench]]
+name = "rsi"
+harness = false
+path = "benches/rsi.rs"
+
+ [[bench]]
+name = "sma"
+harness = false
+path = "benches/sma.rs"
+
+ [[bench]]
+name = "trend_ma"
+harness = false
+path = "benches/trend_ma.rs"
+

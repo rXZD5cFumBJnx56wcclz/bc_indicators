@@ -1,23 +1,3 @@
 /target
 /.vscode
 *.json
-# /tests/unit/indicators/rma.rs
-# /tests/unit/indicators/rsi.rs
-# /tests/unit/indicators/mod.rs
-/tests/unit/indicators/avg.rs
-/tests/unit/indicators/diff.rs
-/tests/unit/indicators/div.rs
-/tests/unit/indicators/ema.rs
-/tests/unit/indicators/minus.rs
-/tests/unit/indicators/mm_scaler.rs
-/tests/unit/indicators/mult.rs
-/tests/unit/indicators/nohesi.rs
-/tests/unit/indicators/osc.rs
-/tests/unit/indicators/percent.rs
-/tests/unit/indicators/pivot.rs
-/tests/unit/indicators/plus.rs
-/tests/unit/indicators/profit_factor.rs
-/tests/unit/indicators/sma.rs
-/tests/unit/indicators/time.rs
-/tests/unit/indicators/trend_ma.rs
-/tests/unit/indicators/avg.rs

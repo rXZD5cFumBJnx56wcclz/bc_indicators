@@ -1,5 +1,4 @@
 pub mod avg;
-pub mod diff;
 pub mod div;
 pub mod ema;
 pub mod minus;
