@@ -18,6 +18,9 @@ impl MM_SCALER {
             add_window_accuracy: 0,
         }
     }
+    pub fn set_window(&mut self, window: usize) {
+        self.window = window;
+    }
 }
 
 impl Default for MM_SCALER {

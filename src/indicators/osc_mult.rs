@@ -22,6 +22,15 @@ impl OSC_MULT {
             add_window_accuracy: 0,
         }
     }
+    pub fn set_diff_short(&mut self, diff_short: f64) {
+        self.diff_short = diff_short;
+    }
+    pub fn set_diff_long(&mut self, diff_long: f64) {
+        self.diff_long = diff_long;
+    }
+    pub fn set_max_v(&mut self, max_v: f64) {
+        self.max_v = max_v;
+    }
 }
 
 impl Default for OSC_MULT {

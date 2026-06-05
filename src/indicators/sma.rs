@@ -20,12 +20,6 @@ impl SMA {
     pub fn set_window(&mut self, window: usize) {
         self.window = window;
     }
-    pub fn set_mult_window_accuracy(&mut self, mult_window_accuracy: usize) {
-        self.mult_window_accuracy = mult_window_accuracy;
-    }
-    pub fn set_add_window_accuracy(&mut self, add_window_accuracy: usize) {
-        self.add_window_accuracy = add_window_accuracy;
-    }
 }
 
 impl Default for SMA {
