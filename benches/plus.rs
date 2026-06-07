@@ -18,7 +18,7 @@ fn plus_bf_1(c: &mut Criterion) {
     let ind = PLUS::new();
     let bf = ind.bf(&IN_);
     c.bench_function("plus_bf_1", |b| {
-        b.iter(|| ind.ind_with_bf(&[OPEN_LAST, CLOSE_LAST,], &bf, 0))
+        b.iter(|| ind.ind_with_bf(&[OPEN_LAST, CLOSE_LAST], &bf, 0))
     });
 }
 

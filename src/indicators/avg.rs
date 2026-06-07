@@ -24,14 +24,8 @@ impl Default for AVG {
 }
 
 impl Indicator for AVG {
-    fn get_window(&self) -> usize {
-        self.window
-    }
-    fn get_mult_window_accuracy(&self) -> usize {
-        self.mult_window_accuracy
-    }
-    fn get_add_window_accuracy(&self) -> usize {
-        self.add_window_accuracy
+    fn w(&self) -> usize {
+        self.window * self.mult_window_accuracy + self.add_window_accuracy
     }
     fn ind(&self, math_operations: &[f64]) -> f64 {
         math_operations.into_iter().sum::<f64>() / math_operations.len() as f64
