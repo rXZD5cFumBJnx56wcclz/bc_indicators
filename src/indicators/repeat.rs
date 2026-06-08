@@ -17,6 +17,9 @@ impl REPEAT {
             add_window_accuracy: 0,
         }
     }
+    pub fn set_value(&mut self, value: f64) {
+        self.value = value;
+    }
 }
 
 impl Default for REPEAT {
