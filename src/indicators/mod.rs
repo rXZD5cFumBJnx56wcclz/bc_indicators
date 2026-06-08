@@ -11,6 +11,7 @@ pub mod plus;
 pub mod profit_factor;
 pub mod ready_imports;
 pub mod rem;
+pub mod repeat;
 pub mod rma;
 pub mod rsi;
 pub mod sma;

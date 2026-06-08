@@ -89,3 +89,7 @@ name = "trend_ma"
 harness = false
 path = "benches/trend_ma.rs"
 
+[[bench]]
+name = "repeat"
+harness = false
+path = "benches/repeat.rs"
