@@ -36,7 +36,7 @@ impl Default for RSI {
 
 impl Indicator for RSI {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy
+        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
     }
     fn ind(&self, math_operations: &[f64]) -> f64 {
         (100.0 - (100.0 / (1.0 + math_operations[0] / math_operations[1]))) / 100.0
@@ -46,9 +46,9 @@ impl Indicator for RSI {
         let mut d = Vec::new();
         let mut src_l = f64::NAN;
         let len_src = in_.len();
-        let _w = self.window * self.mult_window_accuracy;
+        let _w = self.w() - 1;
 
-        for (i, el) in in_[len_src - _w - self.add_window_accuracy..]
+        for (i, el) in in_[len_src - _w..]
             .iter()
             .map(|v| v[0])
             .enumerate()

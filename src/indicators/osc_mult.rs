@@ -41,7 +41,7 @@ impl Default for OSC_MULT {
 
 impl Indicator for OSC_MULT {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy
+        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
     }
     fn ind(&self, math_operations: &[f64]) -> f64 {
         let diff: f64;

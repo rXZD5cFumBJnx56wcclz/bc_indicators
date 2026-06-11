@@ -28,7 +28,7 @@ impl Default for PROFIT_FACTOR {
 
 impl Indicator for PROFIT_FACTOR {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy
+        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
     }
     fn ind(&self, math_operations: &[f64]) -> f64 {
         let mut negative = 0.;

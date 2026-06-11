@@ -25,7 +25,7 @@ impl Default for REM {
 
 impl Indicator for REM {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy
+        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
     }
     fn ind(&self, math_operations: &[f64]) -> f64 {
         math_operations[0] % math_operations[1]

@@ -30,7 +30,7 @@ impl Default for REPEAT {
 
 impl Indicator for REPEAT {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy
+        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
     }
     fn ind(&self, _: &[f64]) -> f64 {
         self.value

@@ -35,7 +35,7 @@ impl Default for TREND_MA {
 
 impl Indicator for TREND_MA {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy
+        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
     }
     fn ind(&self, _: &[f64]) -> f64 {
         Default::default()
