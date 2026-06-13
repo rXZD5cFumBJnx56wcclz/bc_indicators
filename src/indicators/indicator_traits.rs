@@ -10,11 +10,16 @@ where
     T: Indicator,
     T: ?Sized,
 {
-    let bf = indicator.bf(&in_[..indicator.w() - 1]);
+    let bf;
+    if indicator.w() != 0 {
+        bf = indicator.bf(&in_[..indicator.w() - 1]);
+    } else {
+        bf = Default::default();
+    }
     in_.iter()
         .enumerate()
         .map(|v| {
-            if v.0 < indicator.w() - 1 {
+            if v.0 < indicator.w().checked_sub(1).unwrap_or(indicator.w()) {
                 f64::NAN
             } else {
                 indicator.ind_with_bf(v.1, &bf, 0)
@@ -34,7 +39,12 @@ pub trait Indicator: Any {
         index_: usize,
     ) -> f64;
     fn ind_f(&self, in_: &[Vec<f64>]) -> f64 {
-        let bf = self.bf(&in_[in_.len() - self.w()..in_.len() - 1]);
+        let bf;
+        if self.w() != 0 {
+            bf = self.bf(&in_[in_.len() - self.w()..in_.len() - 1]);
+        } else {
+            bf = Default::default();
+        }
         self.ind_with_bf(&in_[in_.len() - 1], &bf, 0)
     }
     fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {

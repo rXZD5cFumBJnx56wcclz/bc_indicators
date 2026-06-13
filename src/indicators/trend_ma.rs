@@ -13,7 +13,7 @@ impl TREND_MA {
         Self {
             window: 0,
             mult_window_accuracy: 1,
-            add_window_accuracy: 2 + 1,
+            add_window_accuracy: 10,
         }
     }
     pub fn set_window(&mut self, window: usize) {

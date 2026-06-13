@@ -33,7 +33,7 @@ where
     T: IndicatorExt,
 {
     assert_eq!(
-        dbg!(settings_indicator.ind_coll::<Vec<_>>(&in_[in_.len() - len_elements..]))
+        dbg!(settings_indicator.ind_coll::<Vec<_>>(&in_[dbg!(in_.len() - len_elements)..]))
             [len_elements - 1],
         eq,
     );

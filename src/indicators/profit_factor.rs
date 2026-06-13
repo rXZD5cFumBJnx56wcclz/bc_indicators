@@ -14,8 +14,8 @@ impl PROFIT_FACTOR {
     pub fn new() -> Self {
         Self {
             window: 0,
-            mult_window_accuracy: 1,
-            add_window_accuracy: 1,
+            mult_window_accuracy: 0,
+            add_window_accuracy: 0,
         }
     }
 }
