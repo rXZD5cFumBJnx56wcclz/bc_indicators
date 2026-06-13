@@ -14,7 +14,7 @@ impl REPEAT {
             value,
             window: 0,
             mult_window_accuracy: 1,
-            add_window_accuracy: 0,
+            add_window_accuracy: 1,
         }
     }
     pub fn set_value(&mut self, value: f64) {
@@ -30,7 +30,7 @@ impl Default for REPEAT {
 
 impl Indicator for REPEAT {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
+        self.window * self.mult_window_accuracy + self.add_window_accuracy
     }
     fn ind(&self, _: &[f64]) -> f64 {
         self.value

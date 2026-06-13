@@ -14,7 +14,7 @@ impl RSI {
         Self {
             window,
             mult_window_accuracy: 10,
-            add_window_accuracy: 1,
+            add_window_accuracy: 2,
         }
     }
     pub fn set_window(&mut self, window: usize) {
@@ -36,7 +36,7 @@ impl Default for RSI {
 
 impl Indicator for RSI {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
+        self.window * self.mult_window_accuracy + self.add_window_accuracy
     }
     fn ind(&self, math_operations: &[f64]) -> f64 {
         (100.0 - (100.0 / (1.0 + math_operations[0] / math_operations[1]))) / 100.0
@@ -48,11 +48,7 @@ impl Indicator for RSI {
         let len_src = in_.len();
         let _w = self.w() - 1;
 
-        for (i, el) in in_[len_src - _w..]
-            .iter()
-            .map(|v| v[0])
-            .enumerate()
-        {
+        for (i, el) in in_[len_src - _w..].iter().map(|v| v[0]).enumerate() {
             if i == 0 {
                 src_l = el;
                 continue;

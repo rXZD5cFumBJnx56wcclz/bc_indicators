@@ -15,7 +15,7 @@ impl MM_SCALER {
         Self {
             window: window,
             mult_window_accuracy: 1,
-            add_window_accuracy: 0,
+            add_window_accuracy: 1,
         }
     }
     pub fn set_window(&mut self, window: usize) {
@@ -31,7 +31,7 @@ impl Default for MM_SCALER {
 
 impl Indicator for MM_SCALER {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
+        self.window * self.mult_window_accuracy + self.add_window_accuracy
     }
     fn ind(&self, math_operations: &[f64]) -> f64 {
         (math_operations[0] - math_operations[1]) / (math_operations[2] - math_operations[1])

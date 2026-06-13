@@ -13,7 +13,7 @@ impl TREND_MA {
         Self {
             window: 0,
             mult_window_accuracy: 1,
-            add_window_accuracy: 2,
+            add_window_accuracy: 2 + 1,
         }
     }
     pub fn set_window(&mut self, window: usize) {
@@ -35,7 +35,7 @@ impl Default for TREND_MA {
 
 impl Indicator for TREND_MA {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
+        self.window * self.mult_window_accuracy + self.add_window_accuracy
     }
     fn ind(&self, _: &[f64]) -> f64 {
         Default::default()

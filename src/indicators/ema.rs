@@ -12,7 +12,7 @@ impl EMA {
         Self {
             window,
             mult_window_accuracy: 10,
-            add_window_accuracy: 0,
+            add_window_accuracy: 1,
         }
     }
     pub fn set_window(&mut self, window: usize) {
@@ -34,7 +34,7 @@ impl Default for EMA {
 
 impl Indicator for EMA {
     fn w(&self) -> usize {
-        self.window * self.mult_window_accuracy + self.add_window_accuracy + 1
+        self.window * self.mult_window_accuracy + self.add_window_accuracy
     }
     fn ind(&self, math_operations: &[f64]) -> f64 {
         math_operations[0] * math_operations[2] + math_operations[1] * (1.0 - math_operations[2])
