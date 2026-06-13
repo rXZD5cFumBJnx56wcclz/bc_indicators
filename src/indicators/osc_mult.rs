@@ -3,39 +3,39 @@ use crate::indicators::ready_imports::*;
 
 #[derive(Debug, PartialEq, PartialOrd)]
 pub struct OSC_MULT {
-    pub diff_short: f64,
-    pub diff_long: f64,
-    pub max_v: f64,
+    pub th_short: f64,
+    pub th_long: f64,
+    pub max_value: f64,
     pub window: usize,
     pub mult_window_accuracy: usize,
     pub add_window_accuracy: usize,
 }
 
 impl OSC_MULT {
-    pub fn new(diff_short: f64, diff_long: f64, max_v: f64) -> Self {
+    pub fn new(th_short: f64, th_long: f64, max_value: f64) -> Self {
         Self {
-            diff_short: diff_short,
-            diff_long: diff_long,
-            max_v: max_v,
+            th_short: th_short,
+            th_long: th_long,
+            max_value: max_value,
             window: 0,
             mult_window_accuracy: 1,
             add_window_accuracy: 1,
         }
     }
-    pub fn set_diff_short(&mut self, diff_short: f64) {
-        self.diff_short = diff_short;
+    pub fn set_th_short(&mut self, th_short: f64) {
+        self.th_short = th_short;
     }
-    pub fn set_diff_long(&mut self, diff_long: f64) {
-        self.diff_long = diff_long;
+    pub fn set_th_long(&mut self, th_long: f64) {
+        self.th_long = th_long;
     }
-    pub fn set_max_v(&mut self, max_v: f64) {
-        self.max_v = max_v;
+    pub fn set_max_value(&mut self, max_value: f64) {
+        self.max_value = max_value;
     }
 }
 
 impl Default for OSC_MULT {
     fn default() -> Self {
-        OSC_MULT::new(15.0, 15.0, 100.0)
+        OSC_MULT::new(0.15, 0.15, 1.0)
     }
 }
 
@@ -48,11 +48,14 @@ impl Indicator for OSC_MULT {
         let v2: f64;
         let v_b = math_operations[0];
 
-        if v_b > (self.max_v - self.diff_short) {
-            diff = self.diff_short;
-            v2 = self.max_v - v_b;
+        if v_b >= (self.max_value - self.th_short) {
+            diff = self.th_short;
+            v2 = self.max_value - v_b;
+        } else if v_b <= self.th_long {
+            diff = self.th_long;
+            v2 = v_b;
         } else {
-            diff = self.diff_long;
+            diff = v_b;
             v2 = v_b;
         }
         (diff - v2) / diff
