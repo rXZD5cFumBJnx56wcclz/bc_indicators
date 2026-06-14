@@ -41,7 +41,7 @@ impl Indicator for RMA {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         math_operations[2] * math_operations[0] + (1.0 - math_operations[2]) * math_operations[1]
     }
-    fn bf(&self, in_: &[Vec<f64>]) -> std::cell::RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>> {
+    fn bf<'a>(&self, in_: &[Vec<f64>]) -> BF_INDICATOR<'a> {
         let mut res = 0.0;
         let len = in_.len();
         let window_t = self.window as f64;
@@ -69,7 +69,7 @@ impl Indicator for RMA {
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        bf: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
+        bf: &RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>>,
         index_: usize,
     ) -> f64 {
         let res = self.ind(&[

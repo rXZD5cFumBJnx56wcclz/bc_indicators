@@ -35,7 +35,7 @@ impl Indicator for SMA {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         avg(math_operations)
     }
-    fn bf(&self, in_: &[Vec<f64>]) -> std::cell::RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>> {
+    fn bf<'a>(&self, in_: &[Vec<f64>]) -> BF_INDICATOR<'a> {
         RefCell::new(vec![FxHashMap::from_iter([(
             "src_l_vec",
             in_[in_.len() - self.window..]
@@ -47,7 +47,7 @@ impl Indicator for SMA {
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        bf: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
+        bf: &RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>>,
         index_: usize,
     ) -> f64 {
         roll_slice1(

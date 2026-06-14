@@ -30,13 +30,13 @@ impl Indicator for PERCENT {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         (math_operations[0] - math_operations[1]) / math_operations[0]
     }
-    fn bf(&self, _: &[Vec<f64>]) -> std::cell::RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>> {
+    fn bf<'a>(&self, _: &[Vec<f64>]) -> BF_INDICATOR<'a> {
         Default::default()
     }
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        _: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
+        _: &RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>>,
         _: usize,
     ) -> f64 {
         self.ind(in_)

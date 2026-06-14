@@ -40,7 +40,7 @@ impl Indicator for TREND_MA {
     fn ind(&self, _: &[f64]) -> f64 {
         Default::default()
     }
-    fn bf(&self, in_: &[Vec<f64>]) -> std::cell::RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>> {
+    fn bf<'a>(&self, in_: &[Vec<f64>]) -> BF_INDICATOR<'a> {
         let mut bf = FxHashMap::default();
         let src_l = in_[in_.len() - 2][0];
         let src = in_[in_.len() - 1][0];
@@ -57,7 +57,7 @@ impl Indicator for TREND_MA {
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        bf: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
+        bf: &RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>>,
         index_: usize,
     ) -> f64 {
         let src_l = bf.borrow()[index_]["src_l"][0];

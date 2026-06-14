@@ -41,7 +41,7 @@ impl Indicator for RSI {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         (100.0 - (100.0 / (1.0 + math_operations[0] / math_operations[1]))) / 100.0
     }
-    fn bf(&self, in_: &[Vec<f64>]) -> RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>> {
+    fn bf<'a>(&self, in_: &[Vec<f64>]) -> RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>> {
         let mut u = Vec::new();
         let mut d = Vec::new();
         let mut src_l = f64::NAN;
@@ -80,7 +80,7 @@ impl Indicator for RSI {
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        bf: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
+        bf: &RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>>,
         index_: usize,
     ) -> f64 {
         let settings_rma = RMA::new(self.window);

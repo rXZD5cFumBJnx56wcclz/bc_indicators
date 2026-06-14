@@ -35,13 +35,13 @@ impl Indicator for REPEAT {
     fn ind(&self, _: &[f64]) -> f64 {
         self.value
     }
-    fn bf(&self, _: &[Vec<f64>]) -> std::cell::RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>> {
+    fn bf<'a>(&self, _: &[Vec<f64>]) -> BF_INDICATOR<'a> {
         Default::default()
     }
     fn ind_with_bf<'a>(
         &self,
         _: &[f64],
-        _: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
+        _: &RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>>,
         _: usize,
     ) -> f64 {
         self.value

@@ -1,5 +1,8 @@
+#![allow(non_camel_case_types)]
+
 use std::cell::RefCell;
 
+use bc_utils_lg::types::maps::MAP;
 use rustc_hash::FxHashMap;
 
 use std::any::Any;
@@ -31,11 +34,11 @@ where
 pub trait Indicator: Any {
     fn w(&self) -> usize;
     fn ind(&self, math_operations: &[f64]) -> f64;
-    fn bf(&self, in_: &[Vec<f64>]) -> RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>;
+    fn bf<'a>(&self, in_: &[Vec<f64>]) -> RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>>;
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        bf: &RefCell<Vec<FxHashMap<&'static str, Vec<f64>>>>,
+        bf: &RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>>,
         index_: usize,
     ) -> f64;
     fn ind_f(&self, in_: &[Vec<f64>]) -> f64 {
@@ -60,3 +63,6 @@ pub trait IndicatorExt: Indicator {
         ind_coll(self, in_)
     }
 }
+
+
+pub type BF_INDICATOR<'a> = RefCell<Vec<MAP<&'a str, Vec<f64>>>>;
