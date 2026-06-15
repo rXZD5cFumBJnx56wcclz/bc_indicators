@@ -15,3 +15,4 @@ pub mod rsi;
 pub mod sma;
 pub mod test_funcs;
 pub mod trend_ma;
+pub mod wrap;

@@ -16,3 +16,4 @@ pub mod rma;
 pub mod rsi;
 pub mod sma;
 pub mod trend_ma;
+pub mod wrap;
