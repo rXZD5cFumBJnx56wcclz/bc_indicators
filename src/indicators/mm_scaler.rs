@@ -57,7 +57,7 @@ impl Indicator for MM_SCALER {
                 .unwrap()
                 .get_mut("src_l_vec")
                 .unwrap(),
-            &-1,
+            -1,
         );
         bf.borrow_mut()
             .get_mut(index_)
