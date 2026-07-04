@@ -3,7 +3,7 @@ use std::sync::LazyLock;
 use bc_utils_lg::statics::prices::{CLOSE, CLOSE_LAST, OPEN, OPEN_LAST};
 use criterion::{Criterion, criterion_group, criterion_main};
 
-use bc_indicators::indicators::{
+use bc_indicators::{
     div::DIV,
     ready_imports::{Indicator, IndicatorExt},
 };
