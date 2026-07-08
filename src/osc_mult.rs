@@ -1,5 +1,5 @@
 #![allow(non_camel_case_types)]
-use crate::ready_imports::*;
+use crate::prelude::*;
 
 #[derive(Debug, PartialEq, PartialOrd)]
 pub struct OSC_MULT {
@@ -12,7 +12,11 @@ pub struct OSC_MULT {
 }
 
 impl OSC_MULT {
-    pub fn new(th_short: f64, th_long: f64, max_value: f64) -> Self {
+    pub fn new(
+        th_short: f64,
+        th_long: f64,
+        max_value: f64,
+    ) -> Self {
         Self {
             th_short: th_short,
             th_long: th_long,
@@ -22,13 +26,22 @@ impl OSC_MULT {
             add_window_accuracy: 0,
         }
     }
-    pub fn set_th_short(&mut self, th_short: f64) {
+    pub fn set_th_short(
+        &mut self,
+        th_short: f64,
+    ) {
         self.th_short = th_short;
     }
-    pub fn set_th_long(&mut self, th_long: f64) {
+    pub fn set_th_long(
+        &mut self,
+        th_long: f64,
+    ) {
         self.th_long = th_long;
     }
-    pub fn set_max_value(&mut self, max_value: f64) {
+    pub fn set_max_value(
+        &mut self,
+        max_value: f64,
+    ) {
         self.max_value = max_value;
     }
 }
@@ -43,7 +56,10 @@ impl Indicator for OSC_MULT {
     fn w(&self) -> usize {
         self.window * self.mult_window_accuracy + self.add_window_accuracy
     }
-    fn ind(&self, math_operations: &[f64]) -> f64 {
+    fn ind(
+        &self,
+        math_operations: &[f64],
+    ) -> f64 {
         let diff: f64;
         let v2: f64;
         let v_b = math_operations[0];
@@ -60,30 +76,77 @@ impl Indicator for OSC_MULT {
         }
         (diff - v2) / diff
     }
-    fn bf<'a>(&self, _: &[Vec<f64>]) -> BF_INDICATOR<'a> {
+    fn bf<'a>(
+        &self,
+        _: &[Vec<f64>],
+    ) -> BF_INDICATOR<'a> {
         Default::default()
     }
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        _: &RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>>,
+        _: &RefCell<Vec<MAP<&'a str, Vec<f64>>>>,
         _: usize,
     ) -> f64 {
         self.ind(in_)
     }
-    fn ind_f(&self, in_: &[Vec<f64>]) -> f64 {
+    fn ind_f(
+        &self,
+        in_: &[Vec<f64>],
+    ) -> f64 {
         self.ind(in_.last().expect("no elements in slice"))
     }
-    fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
+    fn ind_vec(
+        &self,
+        in_: &[Vec<f64>],
+    ) -> Vec<f64> {
         in_.iter().map(|x| self.ind(x)).collect()
     }
 }
 
 impl IndicatorExt for OSC_MULT {
-    fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
+    fn ind_coll<C>(
+        &self,
+        in_: &[Vec<f64>],
+    ) -> C
     where
         C: FromIterator<f64>,
     {
         in_.iter().map(|x| self.ind(x)).collect()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::sync::LazyLock;
+
+    use crate::osc_mult::*;
+    use crate::test_funcs::test_funcs::*;
+
+    static RES: f64 = 0.5;
+    static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| vec![vec![85.0]; 5]);
+
+    #[test]
+    fn osc_mult_bf_res_1() {
+        let settings = OSC_MULT::new(30.0, 70.0, 100.0);
+        test_bf_res_1(settings, &IN_, RES);
+    }
+
+    #[test]
+    fn osc_mult_f_res_1() {
+        let settings = OSC_MULT::new(30.0, 70.0, 100.0);
+        test_f_res_1(settings, &IN_, RES);
+    }
+
+    #[test]
+    fn osc_mult_coll_res_1() {
+        let settings = OSC_MULT::new(30.0, 70.0, 100.0);
+        test_coll_res_1(settings, &IN_, RES, 2);
+    }
+
+    #[test]
+    fn osc_mult_coll_res_2() {
+        let settings = OSC_MULT::new(30.0, 70.0, 100.0);
+        test_coll_res_2(settings, &IN_, 2);
     }
 }

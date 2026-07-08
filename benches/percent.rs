@@ -1,12 +1,6 @@
-use std::sync::LazyLock;
-
-use bc_utils_lg::statics::prices::{CLOSE, CLOSE_LAST, OPEN, OPEN_LAST};
-use criterion::{Criterion, criterion_group, criterion_main};
-
-use bc_indicators::{
-    percent::PERCENT,
-    ready_imports::{Indicator, IndicatorExt},
-};
+mod prelude;
+use bc_indicators::percent::PERCENT;
+use prelude::*;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
     (0..OPEN.len())

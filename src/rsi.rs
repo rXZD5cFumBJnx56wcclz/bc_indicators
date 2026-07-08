@@ -1,5 +1,4 @@
-use crate::indicator_traits::IndicatorExt;
-use crate::ready_imports::*;
+use crate::prelude::*;
 use crate::rma::RMA;
 
 #[derive(Debug, PartialEq, PartialOrd, Eq)]
@@ -17,13 +16,22 @@ impl RSI {
             add_window_accuracy: 2,
         }
     }
-    pub fn set_window(&mut self, window: usize) {
+    pub fn set_window(
+        &mut self,
+        window: usize,
+    ) {
         self.window = window;
     }
-    pub fn set_mult_window_accuracy(&mut self, mult_window_accuracy: usize) {
+    pub fn set_mult_window_accuracy(
+        &mut self,
+        mult_window_accuracy: usize,
+    ) {
         self.mult_window_accuracy = mult_window_accuracy;
     }
-    pub fn set_add_window_accuracy(&mut self, add_window_accuracy: usize) {
+    pub fn set_add_window_accuracy(
+        &mut self,
+        add_window_accuracy: usize,
+    ) {
         self.add_window_accuracy = add_window_accuracy;
     }
 }
@@ -38,10 +46,16 @@ impl Indicator for RSI {
     fn w(&self) -> usize {
         self.window * self.mult_window_accuracy + self.add_window_accuracy
     }
-    fn ind(&self, math_operations: &[f64]) -> f64 {
+    fn ind(
+        &self,
+        math_operations: &[f64],
+    ) -> f64 {
         (100.0 - (100.0 / (1.0 + math_operations[0] / math_operations[1]))) / 100.0
     }
-    fn bf<'a>(&self, in_: &[Vec<f64>]) -> RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>> {
+    fn bf<'a>(
+        &self,
+        in_: &[Vec<f64>],
+    ) -> RefCell<Vec<MAP<&'a str, Vec<f64>>>> {
         let mut u = Vec::new();
         let mut d = Vec::new();
         let mut src_l = f64::NAN;
@@ -74,13 +88,13 @@ impl Indicator for RSI {
             .take()
             .pop()
             .expect("there is no data inside the RMA buffer"),
-            FxHashMap::from_iter([("src_l", vec![src_l])]),
+            MAP::from_iter([("src_l", vec![src_l])]),
         ])
     }
     fn ind_with_bf<'a>(
         &self,
         in_: &[f64],
-        bf: &RefCell<Vec<FxHashMap<&'a str, Vec<f64>>>>,
+        bf: &RefCell<Vec<MAP<&'a str, Vec<f64>>>>,
         index_: usize,
     ) -> f64 {
         let settings_rma = RMA::new(self.window);
@@ -96,3 +110,45 @@ impl Indicator for RSI {
 }
 
 impl IndicatorExt for RSI {}
+
+#[cfg(test)]
+mod tests {
+    use std::sync::LazyLock;
+
+    use bc_utils_lg::statics::prices::OPEN;
+
+    use crate::rsi::*;
+    use crate::test_funcs::test_funcs::*;
+
+    static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
+        OPEN.iter()
+            .copied()
+            .map(|v| vec![v])
+            .collect::<Vec<Vec<f64>>>()
+    });
+    const RES: f64 = 40.410730678054115 / 100.0;
+
+    #[test]
+    fn rsi_bf_res_1() {
+        let settings = RSI::new(2);
+        test_bf_res_1(settings, &IN_, RES);
+    }
+
+    #[test]
+    fn rsi_f_res_1() {
+        let settings = RSI::new(2);
+        test_f_res_1(settings, &IN_, RES);
+    }
+
+    #[test]
+    fn rsi_coll_res_1() {
+        let settings = RSI::new(2);
+        test_coll_res_1(settings, &IN_, RES, 22);
+    }
+
+    #[test]
+    fn rsi_coll_res_2() {
+        let settings = RSI::new(2);
+        test_coll_res_2(settings, &IN_, 30);
+    }
+}

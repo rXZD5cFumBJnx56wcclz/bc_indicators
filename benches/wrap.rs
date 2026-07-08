@@ -1,16 +1,11 @@
-use std::sync::LazyLock;
+mod prelude;
+use prelude::*;
 
-use bc_utils_lg::statics::prices::{CLOSE_LAST, OPEN, OPEN_LAST};
-use criterion::{Criterion, criterion_group, criterion_main};
-
-use bc_indicators::{
-    wrap::WRAP,
-    ready_imports::{Indicator, IndicatorExt},
-};
+use bc_indicators::wrap::WRAP;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
     (0..OPEN.len())
-        .map(|i| vec![OPEN[i],])
+        .map(|i| vec![OPEN[i]])
         .collect::<Vec<Vec<f64>>>()
 });
 
@@ -29,9 +24,7 @@ fn wrap_f_1(c: &mut Criterion) {
 
 fn wrap_coll_1(c: &mut Criterion) {
     let ind = WRAP::new();
-    c.bench_function("wrap_coll_1", |b| {
-        b.iter(|| ind.ind_coll::<Vec<f64>>(&IN_))
-    });
+    c.bench_function("wrap_coll_1", |b| b.iter(|| ind.ind_coll::<Vec<f64>>(&IN_)));
 }
 
 criterion_group!(benches, wrap_bf_1, wrap_f_1, wrap_coll_1);

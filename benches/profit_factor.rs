@@ -1,12 +1,7 @@
-use std::sync::LazyLock;
+mod prelude;
+use prelude::*;
 
-use bc_utils_lg::statics::prices::OPEN_LAST;
-use criterion::{Criterion, criterion_group, criterion_main};
-
-use bc_indicators::{
-    profit_factor::PROFIT_FACTOR,
-    ready_imports::{Indicator, IndicatorExt},
-};
+use bc_indicators::profit_factor::PROFIT_FACTOR;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| vec![vec![1.0, 2.0, -1.0]; 3]);
 
