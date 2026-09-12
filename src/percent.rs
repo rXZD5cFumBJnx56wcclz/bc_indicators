@@ -9,9 +9,10 @@ impl W for PERCENT {
     }
 }
 
+// how much 0 differs from 1 relative to 0
 impl Indicator for PERCENT {
     fn ind(&self, math_operations: &[f64]) -> f64 {
-        (math_operations[0] - math_operations[1]) / math_operations[1]
+        (math_operations[0] - math_operations[1]) / math_operations[0]
     }
     fn init_bf(&self, _in_: &[Vec<f64>]) {}
     fn execute_bf(&self) {}
