@@ -1,7 +1,7 @@
 mod prelude;
 use prelude::*;
 
-use bc_indicators::mm_scaller::MM_SCALLER;
+use bc_indicators::mm_scaller::MmScaller;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
     OPEN.iter()
@@ -11,7 +11,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn mm_scaller_bf_1(c: &mut Criterion) {
-    let ind = MM_SCALLER::new(20);
+    let ind = MmScaller::new(20);
     ind.init_bf(&IN_);
     c.bench_function("mm_scaller_bf_1", |b| b.iter(|| ind.ind(&[OPEN_LAST])));
 }

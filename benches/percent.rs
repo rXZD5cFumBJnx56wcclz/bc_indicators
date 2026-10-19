@@ -1,5 +1,5 @@
 mod prelude;
-use bc_indicators::percent::PERCENT;
+use bc_indicators::percent::Percent;
 use prelude::*;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
@@ -9,7 +9,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn percent_bf_1(c: &mut Criterion) {
-    let ind = PERCENT;
+    let ind = Percent;
     ind.init_bf(&IN_);
     c.bench_function("percent_bf_1", |b| {
         b.iter(|| ind.ind(&[OPEN_LAST, CLOSE_LAST]))

@@ -1,15 +1,15 @@
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct WRAP;
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default, Copy)]
+pub struct Wrap;
 
-impl W for WRAP {
+impl W for Wrap {
     fn w(&self) -> usize {
         0
     }
 }
 
-impl Indicator for WRAP {
+impl Indicator for Wrap {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         math_operations[0]
     }
@@ -21,7 +21,7 @@ impl Indicator for WRAP {
     }
 }
 
-impl IndicatorExt for WRAP {
+impl IndicatorExt for Wrap {
     fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
     where
         C: FromIterator<f64>,
@@ -46,6 +46,6 @@ mod tests {
 
     #[test]
     fn wrap_bf_res_1() {
-        test_ind_bf_res_1(WRAP, &IN_, RES);
+        test_ind_bf_res_1(Wrap, &IN_, RES);
     }
 }

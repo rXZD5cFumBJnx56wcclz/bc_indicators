@@ -1,23 +1,23 @@
 use crate::prelude::*;
 
 #[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
-pub struct REPEAT {
+pub struct Repeat {
     pub value: f64,
 }
 
-impl W for REPEAT {
+impl W for Repeat {
     fn w(&self) -> usize {
         0
     }
 }
 
-impl REPEAT {
+impl Repeat {
     pub fn new(value: f64) -> Self {
         Self { value }
     }
 }
 
-impl Indicator for REPEAT {
+impl Indicator for Repeat {
     fn ind(&self, _: &[f64]) -> f64 {
         self.value
     }
@@ -28,7 +28,7 @@ impl Indicator for REPEAT {
     }
 }
 
-impl IndicatorExt for REPEAT {
+impl IndicatorExt for Repeat {
     fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
     where
         C: FromIterator<f64>,
@@ -50,7 +50,7 @@ mod tests {
             .map(|i| vec![OPEN[i], CLOSE[i]])
             .collect::<Vec<Vec<f64>>>()
     });
-    static SETTINGS_: LazyLock<REPEAT> = LazyLock::new(|| REPEAT::new(1.0));
+    static SETTINGS_: LazyLock<Repeat> = LazyLock::new(|| Repeat::new(1.0));
 
     #[test]
     fn repeat_bf_res_1() {

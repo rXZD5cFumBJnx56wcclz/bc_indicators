@@ -34,13 +34,13 @@ impl RmaParams {
 }
 
 #[derive(Debug, PartialEq, PartialOrd, Default, Clone)]
-pub struct RMA {
+pub struct Rma {
     pub params: RmaParams,
     bf: RefCell<RmaBf>,
     bf_state: RefCell<RmaBf>,
 }
 
-impl RMA {
+impl Rma {
     pub fn new(window: usize) -> Self {
         Self {
             params: RmaParams::new(window),
@@ -53,13 +53,13 @@ fn rma(src: f64, res: f64, alpha: f64) -> f64 {
     alpha * src + (1.0 - alpha) * res
 }
 
-impl W for RMA {
+impl W for Rma {
     fn w(&self) -> usize {
         self.params.window * self.params.mult_window_accuracy
     }
 }
 
-impl Indicator for RMA {
+impl Indicator for Rma {
     fn init_bf(&self, in_: &[Vec<f64>]) {
         let mut res = 0.0;
         let window_t = self.params.window as f64;
@@ -88,7 +88,7 @@ impl Indicator for RMA {
     }
 }
 
-impl IndicatorExt for RMA {}
+impl IndicatorExt for Rma {}
 
 #[cfg(test)]
 mod tests {
@@ -107,13 +107,13 @@ mod tests {
 
     #[test]
     fn rma_bf_res_1() {
-        let settings = RMA::new(2);
+        let settings = Rma::new(2);
         test_ind_bf_res_1(settings, &IN_, RES);
     }
 
     #[test]
     fn rma_coll_res_1() {
-        let settings = RMA::new(2);
+        let settings = Rma::new(2);
         test_coll_res_1(settings, &IN_, 10);
     }
 }

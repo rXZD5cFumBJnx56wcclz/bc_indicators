@@ -1,15 +1,15 @@
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct REM;
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default, Copy)]
+pub struct Rem;
 
-impl W for REM {
+impl W for Rem {
     fn w(&self) -> usize {
         0
     }
 }
 
-impl Indicator for REM {
+impl Indicator for Rem {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         math_operations[0] % math_operations[1]
     }
@@ -21,7 +21,7 @@ impl Indicator for REM {
     }
 }
 
-impl IndicatorExt for REM {
+impl IndicatorExt for Rem {
     fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
     where
         C: FromIterator<f64>,
@@ -46,11 +46,11 @@ mod tests {
 
     #[test]
     fn rem_bf_res_1() {
-        test_ind_bf_res_1(REM, &IN_, RES);
+        test_ind_bf_res_1(Rem, &IN_, RES);
     }
 
     #[test]
     fn rem_coll_res_1() {
-        test_coll_res_1(REM, &IN_, 10);
+        test_coll_res_1(Rem, &IN_, 10);
     }
 }

@@ -2,13 +2,13 @@
 use crate::prelude::*;
 
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct OSC_MULT {
+pub struct OscMult {
     pub th_short: f64,
     pub th_long: f64,
     pub max_value: f64,
 }
 
-impl Default for OSC_MULT {
+impl Default for OscMult {
     fn default() -> Self {
         Self {
             th_short: 0.15,
@@ -18,7 +18,7 @@ impl Default for OSC_MULT {
     }
 }
 
-impl OSC_MULT {
+impl OscMult {
     pub fn new(th_short: f64, th_long: f64, max_value: f64) -> Self {
         Self {
             th_short,
@@ -28,13 +28,13 @@ impl OSC_MULT {
     }
 }
 
-impl W for OSC_MULT {
+impl W for OscMult {
     fn w(&self) -> usize {
         0
     }
 }
 
-impl Indicator for OSC_MULT {
+impl Indicator for OscMult {
     fn ind(&self, in_: &[f64]) -> f64 {
         let diff: f64;
         let v2: f64;
@@ -60,7 +60,7 @@ impl Indicator for OSC_MULT {
     }
 }
 
-impl IndicatorExt for OSC_MULT {
+impl IndicatorExt for OscMult {
     fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
     where
         C: FromIterator<f64>,
@@ -80,7 +80,7 @@ mod tests {
 
     #[test]
     fn osc_mult_bf_res_1() {
-        let settings = OSC_MULT::new(30.0, 70.0, 100.0);
+        let settings = OscMult::new(30.0, 70.0, 100.0);
         test_ind_bf_res_1(settings, &IN_, RES);
     }
 }

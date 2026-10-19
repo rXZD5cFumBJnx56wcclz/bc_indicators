@@ -3,16 +3,16 @@ use bc_utils::nums::dz;
 
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Default, Clone)]
-pub struct PROFIT_FACTOR;
+#[derive(Debug, PartialEq, PartialOrd, Default, Clone, Copy)]
+pub struct ProfitFactor;
 
-impl W for PROFIT_FACTOR {
+impl W for ProfitFactor {
     fn w(&self) -> usize {
         0
     }
 }
 
-impl Indicator for PROFIT_FACTOR {
+impl Indicator for ProfitFactor {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         let mut negative = 0.;
         let mut positive = 0.;
@@ -40,7 +40,7 @@ impl Indicator for PROFIT_FACTOR {
     }
 }
 
-impl IndicatorExt for PROFIT_FACTOR {
+impl IndicatorExt for ProfitFactor {
     fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
     where
         C: FromIterator<f64>,
@@ -61,7 +61,7 @@ mod tests {
 
     #[test]
     fn profit_factor_bf_res_1() {
-        let settings = PROFIT_FACTOR::default();
+        let settings = ProfitFactor;
         test_ind_bf_res_1(settings, &IN_, RES);
     }
 }

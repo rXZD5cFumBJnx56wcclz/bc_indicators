@@ -43,13 +43,13 @@ pub struct TrendMaBf {
 }
 
 #[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
-pub struct TREND_MA {
+pub struct TrendMa {
     pub params: TrendMaParams,
     bf: RefCell<TrendMaBf>,
     bf_state: RefCell<TrendMaBf>,
 }
 
-impl TREND_MA {
+impl TrendMa {
     pub fn new(
         add_window_accuracy: usize,
         trend_short: f64,
@@ -63,14 +63,14 @@ impl TREND_MA {
     }
 }
 
-impl W for TREND_MA {
+impl W for TrendMa {
     fn w(&self) -> usize {
         // window 1
         self.params.add_window_accuracy + 1 + 1
     }
 }
 
-impl Indicator for TREND_MA {
+impl Indicator for TrendMa {
     fn init_bf(&self, in_: &[Vec<f64>]) {
         for src in &in_[in_.len() - (self.w() - 1)..] {
             let src = src[0];
@@ -101,7 +101,7 @@ impl Indicator for TREND_MA {
     }
 }
 
-impl IndicatorExt for TREND_MA {}
+impl IndicatorExt for TrendMa {}
 
 #[cfg(test)]
 mod tests {
@@ -116,13 +116,13 @@ mod tests {
 
     #[test]
     fn trend_ma_bf_res_1() {
-        let settings = TREND_MA::default();
+        let settings = TrendMa::default();
         test_ind_bf_res_1(settings, &IN_, RES);
     }
 
     #[test]
     fn trend_ma_coll_res_1() {
-        let settings = TREND_MA::default();
+        let settings = TrendMa::default();
         test_coll_res_1(settings, &IN_, 1);
     }
 }

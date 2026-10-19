@@ -1,7 +1,7 @@
 mod prelude;
 use prelude::*;
 
-use bc_indicators::mult::MULT;
+use bc_indicators::mult::Mult;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
     (0..OPEN.len())
@@ -10,7 +10,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn mult_bf_1(c: &mut Criterion) {
-    let ind = MULT;
+    let ind = Mult;
     ind.init_bf(&IN_);
     c.bench_function("mult_bf_1", |b| {
         b.iter(|| ind.ind(&[OPEN_LAST, CLOSE_LAST]))

@@ -31,13 +31,13 @@ pub struct EmaBf {
 }
 
 #[derive(Debug, PartialEq, PartialOrd, Default, Clone)]
-pub struct EMA {
+pub struct Ema {
     pub params: EmaParams,
     bf: RefCell<EmaBf>,
     bf_state: RefCell<EmaBf>,
 }
 
-impl EMA {
+impl Ema {
     pub fn new(window: usize) -> Self {
         Self {
             params: EmaParams::new(window),
@@ -50,13 +50,13 @@ fn ema(src: f64, res: f64, alpha: f64) -> f64 {
     src * alpha + res * (1.0 - alpha)
 }
 
-impl W for EMA {
+impl W for Ema {
     fn w(&self) -> usize {
         self.params.window * self.params.mult_window_accuracy
     }
 }
 
-impl Indicator for EMA {
+impl Indicator for Ema {
     fn init_bf(&self, in_: &[Vec<f64>]) {
         let mut res = 0.0;
         let len = in_.len();
@@ -90,7 +90,7 @@ impl Indicator for EMA {
     }
 }
 
-impl IndicatorExt for EMA {}
+impl IndicatorExt for Ema {}
 
 #[cfg(test)]
 mod tests {
@@ -109,13 +109,13 @@ mod tests {
 
     #[test]
     fn ema_bf_res_1() {
-        let settings = EMA::new(2);
+        let settings = Ema::new(2);
         test_ind_bf_res_1(settings, &IN_, RES);
     }
 
     #[test]
     fn ema_coll_res_1() {
-        let settings = EMA::new(2);
+        let settings = Ema::new(2);
         test_coll_res_1(settings, &IN_, 10);
     }
 }

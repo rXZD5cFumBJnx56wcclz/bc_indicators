@@ -1,7 +1,7 @@
 mod prelude;
 use prelude::*;
 
-use bc_indicators::avg::AVG;
+use bc_indicators::avg::Avg;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
     (0..OPEN.len())
@@ -10,7 +10,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn avg_bf_1(c: &mut Criterion) {
-    let ind = AVG;
+    let ind = Avg;
     ind.init_bf(&IN_);
     c.bench_function("avg_bf_1", |b| b.iter(|| ind.ind(&[OPEN_LAST])));
 }

@@ -1,5 +1,5 @@
 #[cfg(test)]
-pub mod test_funcs {
+pub mod funcs {
 
     use pretty_assertions::assert_eq as assert_eq_pr;
 
@@ -11,9 +11,9 @@ pub mod test_funcs {
         T: IndicatorExt,
     {
         ind.init_bf(
-            &src.into_iter()
-                .cloned()
+            &src.iter()
                 .take(src.len() - 1)
+                .cloned()
                 .collect::<Vec<Vec<f64>>>(),
         );
         assert_eq_pr!(ind.ind(src.last().unwrap(),), eq,);
@@ -26,9 +26,9 @@ pub mod test_funcs {
         let ind2 = ind.clone();
         for el in [&ind, &ind2] {
             el.init_bf(
-                src.into_iter()
-                    .cloned()
+                src.iter()
                     .take(src.len() - 1 - interval_len)
+                    .cloned()
                     .collect::<Vec<Vec<f64>>>()
                     .as_slice(),
             );

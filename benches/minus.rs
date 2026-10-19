@@ -1,7 +1,7 @@
 mod prelude;
 use prelude::*;
 
-use bc_indicators::minus::MINUS;
+use bc_indicators::minus::Minus;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
     (0..OPEN.len())
@@ -10,7 +10,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn minus_bf_1(c: &mut Criterion) {
-    let ind = MINUS;
+    let ind = Minus;
     ind.init_bf(&IN_);
     c.bench_function("minus_bf_1", |b| {
         b.iter(|| ind.ind(&[OPEN_LAST, CLOSE_LAST]))

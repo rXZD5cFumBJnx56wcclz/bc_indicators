@@ -1,15 +1,15 @@
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct MULT;
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default, Copy)]
+pub struct Mult;
 
-impl W for MULT {
+impl W for Mult {
     fn w(&self) -> usize {
         0
     }
 }
 
-impl Indicator for MULT {
+impl Indicator for Mult {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         math_operations[0] * math_operations[1]
     }
@@ -21,7 +21,7 @@ impl Indicator for MULT {
     }
 }
 
-impl IndicatorExt for MULT {
+impl IndicatorExt for Mult {
     fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
     where
         C: FromIterator<f64>,
@@ -46,11 +46,11 @@ mod tests {
 
     #[test]
     fn mult_bf_res_1() {
-        test_ind_bf_res_1(MULT, &IN_, RES);
+        test_ind_bf_res_1(Mult, &IN_, RES);
     }
 
     #[test]
     fn mult_coll_res_1() {
-        test_coll_res_1(MULT, &IN_, 10);
+        test_coll_res_1(Mult, &IN_, 10);
     }
 }

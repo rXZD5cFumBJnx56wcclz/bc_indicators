@@ -1,7 +1,7 @@
 use bc_utils_lg::traits::w::W;
 
 use crate::prelude::*;
-use crate::rma::RMA;
+use crate::rma::Rma;
 
 #[derive(Debug, PartialEq, PartialOrd, Default, Clone)]
 pub struct RsiBf {
@@ -33,20 +33,20 @@ impl RsiParams {
 }
 
 #[derive(Debug, PartialEq, PartialOrd, Default, Clone)]
-pub struct RSI {
+pub struct Rsi {
     pub params: RsiParams,
     bf: RefCell<RsiBf>,
     bf_state: RefCell<RsiBf>,
-    pub rma1: RMA,
-    pub rma2: RMA,
+    pub rma1: Rma,
+    pub rma2: Rma,
 }
 
-impl RSI {
+impl Rsi {
     pub fn new(window: usize) -> Self {
         Self {
             params: RsiParams::new(window),
-            rma1: RMA::new(window),
-            rma2: RMA::new(window),
+            rma1: Rma::new(window),
+            rma2: Rma::new(window),
             ..Default::default()
         }
     }
@@ -56,14 +56,14 @@ fn rsi(rma1: f64, rma2: f64) -> f64 {
     (100.0 - (100.0 / (1.0 + rma1 / rma2))) / 100.0
 }
 
-impl W for RSI {
+impl W for Rsi {
     fn w(&self) -> usize {
         // 1 for rma
         self.params.window * self.params.mult_window_accuracy + 1
     }
 }
 
-impl Indicator for RSI {
+impl Indicator for Rsi {
     fn init_bf(&self, in_: &[Vec<f64>]) {
         let mut u = Vec::new();
         let mut d = Vec::new();
@@ -102,7 +102,7 @@ impl Indicator for RSI {
     }
 }
 
-impl IndicatorExt for RSI {}
+impl IndicatorExt for Rsi {}
 
 #[cfg(test)]
 mod tests {
@@ -121,13 +121,13 @@ mod tests {
 
     #[test]
     fn rsi_bf_res_1() {
-        let settings = RSI::new(2);
+        let settings = Rsi::new(2);
         test_ind_bf_res_1(settings, &IN_, RES);
     }
 
     #[test]
     fn rsi_coll_res_1() {
-        let settings = RSI::new(2);
+        let settings = Rsi::new(2);
         test_coll_res_1(settings, &IN_, 10);
     }
 }

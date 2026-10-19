@@ -1,7 +1,7 @@
 mod prelude;
 use prelude::*;
 
-use bc_indicators::repeat::REPEAT;
+use bc_indicators::repeat::Repeat;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
     (0..OPEN.len())
@@ -10,7 +10,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn repeat_bf_1(c: &mut Criterion) {
-    let ind = REPEAT::new(1.0);
+    let ind = Repeat::new(1.0);
     ind.init_bf(&IN_);
     c.bench_function("repeat_bf_1", |b| {
         b.iter(|| ind.ind(&[OPEN_LAST, CLOSE_LAST]))

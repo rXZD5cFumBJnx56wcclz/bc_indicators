@@ -1,4 +1,6 @@
+pub mod abs;
 pub mod avg;
+pub mod count_apply;
 pub mod div;
 pub mod ema;
 pub mod main_trait;
@@ -8,6 +10,7 @@ pub mod mult;
 pub mod osc_mult;
 pub mod percent;
 pub mod plus;
+pub mod pna;
 pub mod prelude;
 pub mod prelude_tests;
 pub mod profit_factor;

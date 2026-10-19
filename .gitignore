@@ -1,4 +1,7 @@
-/target
+target/
 Cargo.lock
-/.vscode
-*.json
+*.swp
+*.log
+log_scripts/
+*.DS_Store
+*.git

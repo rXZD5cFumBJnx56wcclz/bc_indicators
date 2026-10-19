@@ -2,16 +2,16 @@ use bc_utils::nums::dz;
 
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct DIV;
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default, Copy)]
+pub struct Div;
 
-impl W for DIV {
+impl W for Div {
     fn w(&self) -> usize {
         0
     }
 }
 
-impl Indicator for DIV {
+impl Indicator for Div {
     fn ind(&self, in_: &[f64]) -> f64 {
         in_[0] / dz(in_[1])
     }
@@ -22,7 +22,7 @@ impl Indicator for DIV {
     }
 }
 
-impl IndicatorExt for DIV {
+impl IndicatorExt for Div {
     fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
     where
         C: FromIterator<f64>,
@@ -46,11 +46,11 @@ mod tests {
 
     #[test]
     fn div_bf_res_1() {
-        test_ind_bf_res_1(DIV, &IN_, RES);
+        test_ind_bf_res_1(Div, &IN_, RES);
     }
 
     #[test]
     fn div_coll_res_1() {
-        test_coll_res_1(DIV, &IN_, 10);
+        test_coll_res_1(Div, &IN_, 10);
     }
 }

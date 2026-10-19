@@ -14,26 +14,23 @@ impl Default for MmScallerParams {
 
 impl MmScallerParams {
     pub fn new(window: usize) -> Self {
-        Self {
-            window,
-            ..Default::default()
-        }
+        Self { window }
     }
 }
 
 #[derive(Debug, PartialEq, PartialOrd, Default, Clone)]
-pub struct MMScallerBf {
+pub struct MmScallerBf {
     src_l: Vec<f64>,
 }
 
 #[derive(Debug, PartialEq, PartialOrd, Default, Clone)]
-pub struct MM_SCALLER {
+pub struct MmScaller {
     pub params: MmScallerParams,
-    bf: RefCell<MMScallerBf>,
-    bf_state: RefCell<MMScallerBf>,
+    bf: RefCell<MmScallerBf>,
+    bf_state: RefCell<MmScallerBf>,
 }
 
-impl MM_SCALLER {
+impl MmScaller {
     pub fn new(window: usize) -> Self {
         Self {
             params: MmScallerParams::new(window),
@@ -46,13 +43,13 @@ fn mm_scaller(src: f64, min_: f64, max_: f64) -> f64 {
     (src - min_) / (max_ - min_)
 }
 
-impl W for MM_SCALLER {
+impl W for MmScaller {
     fn w(&self) -> usize {
         self.params.window
     }
 }
 
-impl Indicator for MM_SCALLER {
+impl Indicator for MmScaller {
     fn init_bf(&self, in_: &[Vec<f64>]) {
         self.bf.borrow_mut().src_l = in_[in_.len() - self.w()..].iter().map(|v| v[0]).collect();
         *self.bf_state.borrow_mut() = self.bf.borrow().clone();
@@ -84,7 +81,7 @@ impl Indicator for MM_SCALLER {
     }
 }
 
-impl IndicatorExt for MM_SCALLER {}
+impl IndicatorExt for MmScaller {}
 
 #[cfg(test)]
 mod tests {
@@ -99,13 +96,13 @@ mod tests {
 
     #[test]
     fn mm_scaller_bf_res_1() {
-        let settings = MM_SCALLER::new(3);
+        let settings = MmScaller::new(3);
         test_ind_bf_res_1(settings, &IN_, RES);
     }
 
     #[test]
     fn mm_scaller_coll_res_1() {
-        let settings = MM_SCALLER::new(3);
+        let settings = MmScaller::new(3);
         test_coll_res_1(settings, &IN_, 1);
     }
 }

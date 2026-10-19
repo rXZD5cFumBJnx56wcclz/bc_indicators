@@ -15,10 +15,7 @@ impl Default for SmaParams {
 
 impl SmaParams {
     pub fn new(window: usize) -> Self {
-        Self {
-            window,
-            ..Default::default()
-        }
+        Self { window }
     }
 }
 
@@ -27,24 +24,14 @@ pub struct SmaBf {
     src_l: Vec<f64>,
 }
 
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct SMA {
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
+pub struct Sma {
     pub params: SmaParams,
     bf: RefCell<SmaBf>,
     bf_state: RefCell<SmaBf>,
 }
 
-impl Default for SMA {
-    fn default() -> Self {
-        Self {
-            params: Default::default(),
-            bf: Default::default(),
-            bf_state: Default::default(),
-        }
-    }
-}
-
-impl SMA {
+impl Sma {
     pub fn new(window: usize) -> Self {
         Self {
             params: SmaParams::new(window),
@@ -53,13 +40,13 @@ impl SMA {
     }
 }
 
-impl W for SMA {
+impl W for Sma {
     fn w(&self) -> usize {
         self.params.window
     }
 }
 
-impl Indicator for SMA {
+impl Indicator for Sma {
     fn init_bf(&self, in_: &[Vec<f64>]) {
         self.bf.borrow_mut().src_l = in_[in_.len() - self.w()..]
             .iter()
@@ -80,7 +67,7 @@ impl Indicator for SMA {
     }
 }
 
-impl IndicatorExt for SMA {}
+impl IndicatorExt for Sma {}
 
 #[cfg(test)]
 mod tests {
@@ -96,17 +83,17 @@ mod tests {
             .collect::<Vec<Vec<f64>>>()
     });
     static RES: LazyLock<f64> =
-        LazyLock::new(|| OPEN[OPEN.len() - 10..].into_iter().sum::<f64>() / 10.0);
+        LazyLock::new(|| OPEN[OPEN.len() - 10..].iter().sum::<f64>() / 10.0);
 
     #[test]
     fn sma_bf_res_1() {
-        let settings = SMA::new(10);
+        let settings = Sma::new(10);
         test_ind_bf_res_1(settings, &IN_, *RES);
     }
 
     #[test]
     fn sma_coll_res_1() {
-        let settings = SMA::new(10);
+        let settings = Sma::new(10);
         test_coll_res_1(settings, &IN_, 10);
     }
 }

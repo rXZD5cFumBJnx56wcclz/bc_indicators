@@ -1,7 +1,7 @@
 mod prelude;
 use prelude::*;
 
-use bc_indicators::sma::SMA;
+use bc_indicators::sma::Sma;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
     OPEN.iter()
@@ -11,7 +11,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn sma_bf_1(c: &mut Criterion) {
-    let ind = SMA::new(20);
+    let ind = Sma::new(20);
     ind.init_bf(&IN_);
     c.bench_function("sma_bf_1", |b| b.iter(|| ind.ind(&[OPEN_LAST])));
 }

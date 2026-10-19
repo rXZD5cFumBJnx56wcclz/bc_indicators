@@ -1,16 +1,16 @@
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct PERCENT;
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default, Copy)]
+pub struct Percent;
 
-impl W for PERCENT {
+impl W for Percent {
     fn w(&self) -> usize {
         0
     }
 }
 
 // how much 0 differs from 1 relative to 0
-impl Indicator for PERCENT {
+impl Indicator for Percent {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         (math_operations[0] - math_operations[1]) / math_operations[0]
     }
@@ -22,7 +22,7 @@ impl Indicator for PERCENT {
     }
 }
 
-impl IndicatorExt for PERCENT {
+impl IndicatorExt for Percent {
     fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
     where
         C: FromIterator<f64>,
@@ -46,11 +46,11 @@ mod tests {
 
     #[test]
     fn percent_bf_res_1() {
-        test_ind_bf_res_1(PERCENT, &IN_, RES);
+        test_ind_bf_res_1(Percent, &IN_, RES);
     }
 
     #[test]
     fn percent_coll_res_1() {
-        test_coll_res_1(PERCENT, &IN_, 10);
+        test_coll_res_1(Percent, &IN_, 10);
     }
 }

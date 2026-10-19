@@ -1,7 +1,7 @@
 mod prelude;
 use prelude::*;
 
-use bc_indicators::trend_ma::TREND_MA;
+use bc_indicators::trend_ma::TrendMa;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
     OPEN.iter()
@@ -11,7 +11,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn trend_ma_bf_1(c: &mut Criterion) {
-    let ind = TREND_MA::default();
+    let ind = TrendMa::default();
     ind.init_bf(&IN_);
     c.bench_function("trend_ma_bf_1", |b| b.iter(|| ind.ind(&[OPEN_LAST])));
 }

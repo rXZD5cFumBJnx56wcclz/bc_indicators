@@ -1,15 +1,15 @@
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct MINUS;
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default, Copy)]
+pub struct Minus;
 
-impl W for MINUS {
+impl W for Minus {
     fn w(&self) -> usize {
         0
     }
 }
 
-impl Indicator for MINUS {
+impl Indicator for Minus {
     fn ind(&self, math_operations: &[f64]) -> f64 {
         math_operations[0] - math_operations[1]
     }
@@ -20,7 +20,7 @@ impl Indicator for MINUS {
     }
 }
 
-impl IndicatorExt for MINUS {
+impl IndicatorExt for Minus {
     fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C
     where
         C: FromIterator<f64>,
@@ -44,10 +44,10 @@ mod tests {
 
     #[test]
     fn minus_bf_res_1() {
-        test_ind_bf_res_1(MINUS, &IN_, RES);
+        test_ind_bf_res_1(Minus, &IN_, RES);
     }
     #[test]
     fn minus_coll_res_1() {
-        test_coll_res_1(MINUS, &IN_, 10);
+        test_coll_res_1(Minus, &IN_, 10);
     }
 }

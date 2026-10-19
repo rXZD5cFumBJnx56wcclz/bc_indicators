@@ -1,7 +1,7 @@
 mod prelude;
 use prelude::*;
 
-use bc_indicators::rma::RMA;
+use bc_indicators::rma::Rma;
 
 static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
     OPEN.iter()
@@ -11,7 +11,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn rma_bf_1(c: &mut Criterion) {
-    let ind = RMA::new(4);
+    let ind = Rma::new(4);
     ind.init_bf(&IN_);
     c.bench_function("rma_bf_1", |b| b.iter(|| ind.ind(&[OPEN_LAST])));
 }
