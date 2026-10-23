@@ -87,11 +87,6 @@ impl Indicator for Rsi {
         self.rma2
             .init_bf(&d.into_iter().map(|v| vec![v]).collect::<Vec<Vec<f64>>>());
     }
-    fn execute_bf(&self) {
-        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
-        self.rma1.execute_bf();
-        self.rma2.execute_bf();
-    }
 
     fn ind(&self, in_: &[f64]) -> f64 {
         let change = in_[0] - self.bf.borrow().src_l;
@@ -99,6 +94,14 @@ impl Indicator for Rsi {
         let d = 0.0f64.max(-change);
         self.bf_state.borrow_mut().src_l = in_[0];
         rsi(self.rma1.ind(&[u]), self.rma2.ind(&[d]))
+    }
+}
+
+impl ExecuteBf for Rsi {
+    fn execute_bf(&self) {
+        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
+        self.rma1.execute_bf();
+        self.rma2.execute_bf();
     }
 }
 

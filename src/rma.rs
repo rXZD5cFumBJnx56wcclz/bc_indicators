@@ -79,12 +79,16 @@ impl Indicator for Rma {
         self.bf.borrow_mut().res = res;
         *self.bf_state.borrow_mut() = self.bf.borrow().clone();
     }
-    fn execute_bf(&self) {
-        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
-    }
+
     fn ind(&self, in_: &[f64]) -> f64 {
         self.bf_state.borrow_mut().res = rma(in_[0], self.bf.borrow().res, self.bf.borrow().alpha);
         self.bf_state.borrow_mut().res
+    }
+}
+
+impl ExecuteBf for Rma {
+    fn execute_bf(&self) {
+        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
     }
 }
 

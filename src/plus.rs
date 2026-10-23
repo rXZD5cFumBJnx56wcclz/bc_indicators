@@ -1,7 +1,14 @@
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Clone, Default, Copy)]
-pub struct Plus;
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
+pub struct PlusParams {
+    pub fixed_values: Vec<f64>,
+}
+
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
+pub struct Plus {
+    pub params: PlusParams,
+}
 
 impl W for Plus {
     fn w(&self) -> usize {
@@ -11,14 +18,24 @@ impl W for Plus {
 
 impl Indicator for Plus {
     fn ind(&self, math_operations: &[f64]) -> f64 {
-        math_operations[0] + math_operations[1]
+        let mut res = 0.0;
+        for fixed in self.params.fixed_values.iter() {
+            res += *fixed;
+        }
+        for opp in math_operations {
+            res += *opp;
+        }
+        res
     }
     fn init_bf(&self, _in_: &[Vec<f64>]) {}
-    fn execute_bf(&self) {}
 
     fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
         in_.iter().map(|x| self.ind(x)).collect()
     }
+}
+
+impl ExecuteBf for Plus {
+    fn execute_bf(&self) {}
 }
 
 impl IndicatorExt for Plus {
@@ -46,10 +63,11 @@ mod tests {
 
     #[test]
     fn plus_bf_res_1() {
-        test_ind_bf_res_1(Plus, &IN_, RES);
+        test_ind_bf_res_1(Plus::default(), &IN_, RES);
     }
+
     #[test]
     fn plus_coll_res_1() {
-        test_coll_res_1(Plus, &IN_, 10);
+        test_coll_res_1(Plus::default(), &IN_, 10);
     }
 }

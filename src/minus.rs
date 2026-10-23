@@ -1,7 +1,14 @@
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Clone, Default, Copy)]
-pub struct Minus;
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
+pub struct PlusParams {
+    pub fixed_values: Vec<f64>,
+}
+
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
+pub struct Minus {
+    pub params: PlusParams,
+}
 
 impl W for Minus {
     fn w(&self) -> usize {
@@ -11,13 +18,29 @@ impl W for Minus {
 
 impl Indicator for Minus {
     fn ind(&self, math_operations: &[f64]) -> f64 {
-        math_operations[0] - math_operations[1]
+        let mut res = self
+            .params
+            .fixed_values
+            .first()
+            .copied()
+            .unwrap_or(math_operations.first().copied().unwrap_or_default());
+        for fixed in self.params.fixed_values.iter().skip(1) {
+            res -= *fixed;
+        }
+        for opp in math_operations.iter().skip(1) {
+            res -= *opp;
+        }
+        res
     }
     fn init_bf(&self, _in_: &[Vec<f64>]) {}
-    fn execute_bf(&self) {}
+
     fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
         in_.iter().map(|x| self.ind(x)).collect()
     }
+}
+
+impl ExecuteBf for Minus {
+    fn execute_bf(&self) {}
 }
 
 impl IndicatorExt for Minus {
@@ -32,8 +55,9 @@ impl IndicatorExt for Minus {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::prelude_tests::prelude::*;
     use std::sync::LazyLock;
+
+    use crate::prelude_tests::prelude::*;
 
     static RES: f64 = OPEN[OPEN.len() - 1] - CLOSE[OPEN.len() - 1];
     static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
@@ -43,11 +67,12 @@ mod tests {
     });
 
     #[test]
-    fn minus_bf_res_1() {
-        test_ind_bf_res_1(Minus, &IN_, RES);
+    fn plus_bf_res_1() {
+        test_ind_bf_res_1(Minus::default(), &IN_, RES);
     }
+
     #[test]
-    fn minus_coll_res_1() {
-        test_coll_res_1(Minus, &IN_, 10);
+    fn plus_coll_res_1() {
+        test_coll_res_1(Minus::default(), &IN_, 10);
     }
 }

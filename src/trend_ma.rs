@@ -85,9 +85,6 @@ impl Indicator for TrendMa {
         }
         *self.bf_state.borrow_mut() = self.bf.borrow().clone();
     }
-    fn execute_bf(&self) {
-        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
-    }
     fn ind(&self, in_: &[f64]) -> f64 {
         let src_l = self.bf.borrow().src_l;
         let src = in_[0];
@@ -98,6 +95,12 @@ impl Indicator for TrendMa {
         }
         self.bf_state.borrow_mut().src_l = src;
         self.bf_state.borrow_mut().trend
+    }
+}
+
+impl ExecuteBf for TrendMa {
+    fn execute_bf(&self) {
+        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
     }
 }
 

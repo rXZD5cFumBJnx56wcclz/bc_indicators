@@ -1,7 +1,15 @@
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Clone, Default, Copy)]
-pub struct Percent;
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
+pub struct PercentParams {
+    pub fixed_value1: Option<f64>,
+    pub fixed_value2: Option<f64>,
+}
+
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
+pub struct Percent {
+    pub params: PercentParams,
+}
 
 impl W for Percent {
     fn w(&self) -> usize {
@@ -12,14 +20,25 @@ impl W for Percent {
 // how much 0 differs from 1 relative to 0
 impl Indicator for Percent {
     fn ind(&self, math_operations: &[f64]) -> f64 {
-        (math_operations[0] - math_operations[1]) / math_operations[0]
+        let opp1 = self
+            .params
+            .fixed_value1
+            .unwrap_or(math_operations.get(0).copied().unwrap_or_default());
+        let opp2 = self
+            .params
+            .fixed_value2
+            .unwrap_or(math_operations.get(1).copied().unwrap_or_default());
+        (opp1 - opp2) / opp1
     }
     fn init_bf(&self, _in_: &[Vec<f64>]) {}
-    fn execute_bf(&self) {}
 
     fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
         in_.iter().map(|x| self.ind(x)).collect()
     }
+}
+
+impl ExecuteBf for Percent {
+    fn execute_bf(&self) {}
 }
 
 impl IndicatorExt for Percent {
@@ -46,11 +65,11 @@ mod tests {
 
     #[test]
     fn percent_bf_res_1() {
-        test_ind_bf_res_1(Percent, &IN_, RES);
+        test_ind_bf_res_1(Percent::default(), &IN_, RES);
     }
 
     #[test]
     fn percent_coll_res_1() {
-        test_coll_res_1(Percent, &IN_, 10);
+        test_coll_res_1(Percent::default(), &IN_, 10);
     }
 }

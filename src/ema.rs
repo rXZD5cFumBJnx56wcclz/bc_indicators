@@ -81,12 +81,16 @@ impl Indicator for Ema {
         self.bf.borrow_mut().res = res;
         *self.bf_state.borrow_mut() = self.bf.borrow().clone();
     }
-    fn execute_bf(&self) {
-        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
-    }
+
     fn ind(&self, in_: &[f64]) -> f64 {
         self.bf_state.borrow_mut().res = ema(in_[0], self.bf.borrow().res, self.bf.borrow().alpha);
         self.bf_state.borrow().res
+    }
+}
+
+impl ExecuteBf for Ema {
+    fn execute_bf(&self) {
+        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
     }
 }
 

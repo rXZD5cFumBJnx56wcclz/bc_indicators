@@ -33,11 +33,14 @@ impl Indicator for ProfitFactor {
         }
     }
     fn init_bf(&self, _: &[Vec<f64>]) {}
-    fn execute_bf(&self) {}
 
     fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
         in_.iter().map(|x| self.ind(x)).collect()
     }
+}
+
+impl ExecuteBf for ProfitFactor {
+    fn execute_bf(&self) {}
 }
 
 impl IndicatorExt for ProfitFactor {

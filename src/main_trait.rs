@@ -1,9 +1,6 @@
 #![allow(non_camel_case_types)]
 
-use std::any::Any;
-
-use bc_utils_lg::traits::w::W;
-use dyn_clone::DynClone;
+use crate::prelude::*;
 
 fn ind_coll<C, T>(indicator: &T, in_: &[Vec<f64>]) -> C
 where
@@ -21,16 +18,15 @@ where
         .collect()
 }
 
-pub trait Indicator: Any + W + DynClone {
+pub trait Indicator: Any + W + ExecuteBf + DynClone {
     fn init_bf(&self, in_: &[Vec<f64>]);
-    fn execute_bf(&self);
     fn ind(&self, in_: &[f64]) -> f64;
     fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
         ind_coll(self, in_)
     }
 }
 
-dyn_clone::clone_trait_object!(Indicator);
+clone_trait_object!(Indicator);
 
 pub trait IndicatorExt: Indicator {
     fn ind_coll<C>(&self, in_: &[Vec<f64>]) -> C

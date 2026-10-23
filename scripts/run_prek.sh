@@ -6,7 +6,6 @@ mkdir -p "$dir"
 rm -f "$file"
 
 ./scripts/pre_prek.sh
-jj squash
 prek run "$@" 
 status=$?
 

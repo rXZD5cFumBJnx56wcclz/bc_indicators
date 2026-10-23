@@ -54,9 +54,6 @@ impl Indicator for Sma {
             .collect::<Vec<f64>>();
         self.bf_state.borrow_mut().src_l = self.bf.borrow().src_l.clone();
     }
-    fn execute_bf(&self) {
-        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
-    }
     fn ind(&self, in_: &[f64]) -> f64 {
         self.bf_state.borrow_mut().src_l = {
             let mut bind = self.bf.borrow().src_l[1..].to_vec();
@@ -64,6 +61,12 @@ impl Indicator for Sma {
             bind
         };
         avg(&self.bf_state.borrow().src_l)
+    }
+}
+
+impl ExecuteBf for Sma {
+    fn execute_bf(&self) {
+        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
     }
 }
 

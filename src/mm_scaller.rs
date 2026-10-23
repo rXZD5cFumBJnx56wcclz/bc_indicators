@@ -54,9 +54,6 @@ impl Indicator for MmScaller {
         self.bf.borrow_mut().src_l = in_[in_.len() - self.w()..].iter().map(|v| v[0]).collect();
         *self.bf_state.borrow_mut() = self.bf.borrow().clone();
     }
-    fn execute_bf(&self) {
-        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
-    }
     fn ind(&self, in_: &[f64]) -> f64 {
         self.bf_state.borrow_mut().src_l = {
             let mut bind = self.bf.borrow().src_l[1..].to_vec();
@@ -78,6 +75,12 @@ impl Indicator for MmScaller {
             .max_by(|a, b| a.partial_cmp(b).unwrap())
             .unwrap();
         mm_scaller(in_[in_.len() - 1], min_, max_)
+    }
+}
+
+impl ExecuteBf for MmScaller {
+    fn execute_bf(&self) {
+        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
     }
 }
 

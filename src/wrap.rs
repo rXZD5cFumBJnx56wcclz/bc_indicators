@@ -14,11 +14,14 @@ impl Indicator for Wrap {
         math_operations[0]
     }
     fn init_bf(&self, _in_: &[Vec<f64>]) {}
-    fn execute_bf(&self) {}
 
     fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
         in_.iter().map(|x| self.ind(x)).collect()
     }
+}
+
+impl ExecuteBf for Wrap {
+    fn execute_bf(&self) {}
 }
 
 impl IndicatorExt for Wrap {

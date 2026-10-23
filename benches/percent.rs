@@ -9,7 +9,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn percent_bf_1(c: &mut Criterion) {
-    let ind = Percent;
+    let ind = Percent::default();
     ind.init_bf(&IN_);
     c.bench_function("percent_bf_1", |b| {
         b.iter(|| ind.ind(&[OPEN_LAST, CLOSE_LAST]))

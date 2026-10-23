@@ -1,7 +1,14 @@
 use crate::prelude::*;
 
-#[derive(Debug, PartialEq, PartialOrd, Clone, Default, Copy)]
-pub struct Rem;
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
+pub struct RemParams {
+    pub fixed_values: Vec<f64>,
+}
+
+#[derive(Debug, PartialEq, PartialOrd, Clone, Default)]
+pub struct Rem {
+    pub params: RemParams,
+}
 
 impl W for Rem {
     fn w(&self) -> usize {
@@ -11,14 +18,29 @@ impl W for Rem {
 
 impl Indicator for Rem {
     fn ind(&self, math_operations: &[f64]) -> f64 {
-        math_operations[0] % math_operations[1]
+        let mut res = self
+            .params
+            .fixed_values
+            .first()
+            .copied()
+            .unwrap_or(math_operations.first().copied().unwrap_or_default());
+        for fixed in self.params.fixed_values.iter().skip(1) {
+            res %= *fixed;
+        }
+        for opp in math_operations.iter().skip(1) {
+            res %= *opp;
+        }
+        res
     }
     fn init_bf(&self, _in_: &[Vec<f64>]) {}
-    fn execute_bf(&self) {}
 
     fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
         in_.iter().map(|x| self.ind(x)).collect()
     }
+}
+
+impl ExecuteBf for Rem {
+    fn execute_bf(&self) {}
 }
 
 impl IndicatorExt for Rem {
@@ -46,11 +68,11 @@ mod tests {
 
     #[test]
     fn rem_bf_res_1() {
-        test_ind_bf_res_1(Rem, &IN_, RES);
+        test_ind_bf_res_1(Rem::default(), &IN_, RES);
     }
 
     #[test]
     fn rem_coll_res_1() {
-        test_coll_res_1(Rem, &IN_, 10);
+        test_coll_res_1(Rem::default(), &IN_, 10);
     }
 }

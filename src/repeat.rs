@@ -22,10 +22,13 @@ impl Indicator for Repeat {
         self.value
     }
     fn init_bf(&self, _in_: &[Vec<f64>]) {}
-    fn execute_bf(&self) {}
     fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
         (0..in_.len()).map(|_| self.value).collect()
     }
+}
+
+impl ExecuteBf for Repeat {
+    fn execute_bf(&self) {}
 }
 
 impl IndicatorExt for Repeat {

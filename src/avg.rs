@@ -12,13 +12,16 @@ impl W for Avg {
 }
 impl Indicator for Avg {
     fn init_bf(&self, _in_: &[Vec<f64>]) {}
-    fn execute_bf(&self) {}
     fn ind(&self, in_: &[f64]) -> f64 {
         in_.iter().sum::<f64>() / in_.len() as f64
     }
     fn ind_vec(&self, in_: &[Vec<f64>]) -> Vec<f64> {
         in_.iter().map(|x| self.ind(x)).collect()
     }
+}
+
+impl ExecuteBf for Avg {
+    fn execute_bf(&self) {}
 }
 
 impl IndicatorExt for Avg {

@@ -96,10 +96,6 @@ impl Indicator for Pna {
         self.bf_state.borrow_mut().src_l = vals;
     }
 
-    fn execute_bf(&self) {
-        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
-    }
-
     fn ind(&self, in_: &[f64]) -> f64 {
         let val = self.calc_raw_pct_abs(in_);
         let mut bind =
@@ -120,6 +116,12 @@ impl Indicator for Pna {
 
         self.bf_state.borrow_mut().src_l = bind;
         res
+    }
+}
+
+impl ExecuteBf for Pna {
+    fn execute_bf(&self) {
+        *self.bf.borrow_mut() = self.bf_state.borrow().clone();
     }
 }
 

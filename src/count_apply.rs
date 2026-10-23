@@ -78,10 +78,6 @@ impl Indicator for CountApply {
         self.bf_state.borrow_mut().count = count;
     }
 
-    fn execute_bf(&self) {
-        *self.bf.borrow_mut() = *self.bf_state.borrow();
-    }
-
     fn ind(&self, in_: &[f64]) -> f64 {
         let target = self.params.count.max(1);
         let cur = self.bf.borrow().count + 1;
@@ -110,6 +106,12 @@ impl Indicator for CountApply {
 
         self.bf_state.borrow_mut().count = next_count;
         res
+    }
+}
+
+impl ExecuteBf for CountApply {
+    fn execute_bf(&self) {
+        *self.bf.borrow_mut() = *self.bf_state.borrow();
     }
 }
 

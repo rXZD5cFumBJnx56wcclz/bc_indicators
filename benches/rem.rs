@@ -10,7 +10,7 @@ static IN_: LazyLock<Vec<Vec<f64>>> = LazyLock::new(|| {
 });
 
 fn rem_bf_1(c: &mut Criterion) {
-    let ind = Rem;
+    let ind = Rem::default();
     ind.init_bf(&IN_);
     c.bench_function("rem_bf_1", |b| b.iter(|| ind.ind(&[OPEN_LAST, CLOSE_LAST])));
 }
